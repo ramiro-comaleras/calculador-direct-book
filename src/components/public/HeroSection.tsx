@@ -9,7 +9,7 @@ export function HeroSection() {
       {/* Background image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('/fondo hero.webp')`, backgroundPosition: 'center 40%' }}
+        style={{ backgroundImage: `url('/ports-of-call-bocas-del-toro.webp')`, backgroundPosition: 'center 40%' }}
       />
       {/* Gradient overlay for readability */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#062e1e]/80 via-[#062e1e]/70 to-[#04140e]/80" />
@@ -25,10 +25,10 @@ export function HeroSection() {
             </span>
           </div>
 
-          <h1 className="font-heading text-display-lg md:text-display-xl lg:text-display-2xl text-white mb-6 leading-tight drop-shadow-2xl">
+          <h1 className="font-heading text-display-md sm:text-display-lg md:text-display-xl lg:text-display-2xl text-white mb-6 leading-tight drop-shadow-2xl">
             {hero.headline}
           </h1>
-          <p className="text-body-lg md:text-body-xl text-teal-100 mb-12 max-w-3xl leading-relaxed drop-shadow-md">
+          <p className="text-body-md sm:text-body-lg md:text-body-xl text-teal-100 mb-12 max-w-3xl leading-relaxed drop-shadow-md">
             {hero.subheadline}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full">

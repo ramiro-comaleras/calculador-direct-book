@@ -151,8 +151,8 @@ export const siteConfig: SiteConfig = {
   },
 
   hero: {
-    headline: 'Deja de regalar tu dinero a Booking y automatiza con IA',
-    subheadline: 'Implementamos el sistema de reservas directas que se paga solo. Recupera hasta el 18% de comisiones por cada reserva.',
+    headline: 'Deja de regalar tu dinero a Booking y automatiza con IA tu hotel',
+    subheadline: 'Implementamos el sistema de reservas directas que se paga solo. Recupera hasta el 18% de comisiones por cada reserva. Y automatiza la atención al cliente en tiempo real.',
     ctaText: 'Ver Calculadora',
     ctaHref: '/calculadora',
   },
