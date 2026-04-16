@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Direct-Book Bocas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:       #0a5c42;
+      --primary-dark:  #073d2c;
+      --primary-light: #d4ede6;
+      --gold:          #C9973A;
+      --gold-dark:     #b8852e;
+      --gold-light:    #FDF3E3;
+      --text-primary:  #111a15;
+      --text-secondary:#3d5247;
+      --text-muted:    #7a9089;
+      --bg-white:      #FAFAF8;
+      --bg-section:    #f2f7f5;
+      --danger:        #DC2626;
+      --danger-light:  #FEF2F2;
+      --success:       #0a7a52;
+      --success-light: #edfaf4;
+      --border:        #d8e8e3;
+      --shadow:        0 2px 16px rgba(10,92,66,0.08);
+      --shadow-md:     0 6px 28px rgba(10,92,66,0.13);
+      --shadow-lg:     0 16px 56px rgba(10,92,66,0.18);
+      --glass-bg:      rgba(255,255,255,0.72);
+      --glass-dark:    rgba(10,35,25,0.55);
+      --glass-border:  rgba(255,255,255,0.35);
+      --glass-shadow:  0 8px 32px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.4);
+      --r-lg: 20px;
+      --r-md: 14px;
+      --r-sm: 10px;
+      --r-xl: 28px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-primary);
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    /* ─── Header — Liquid Glass ─────────────────────── */
+    .site-header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(24px) saturate(1.8);
+      -webkit-backdrop-filter: blur(24px) saturate(1.8);
+      border-bottom: 1px solid rgba(10,92,66,0.1);
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      box-shadow: 0 1px 24px rgba(10,92,66,0.07);
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary) 0%, #1a8a5a 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(10,92,66,0.3);
+    }
+    .logo-mark svg { width: 18px; height: 18px; }
+    .logo-name { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: -.2px; }
+    .logo-name span { color: var(--primary); }
+    .header-sep { width: 1px; height: 22px; background: rgba(10,92,66,0.12); }
+    .header-hotel { font-size: 13px; color: var(--text-muted); font-style: italic; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .badge-demo {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(10,92,66,0.08); color: var(--primary);
+      font-size: 11px; font-weight: 700; letter-spacing: .8px;
+      padding: 5px 12px; border-radius: 20px; text-transform: uppercase;
+      border: 1px solid rgba(10,92,66,0.15);
+    }
+    .demo-pulse { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 1.5s ease-in-out infinite; }
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--gold) 0%, #e0ab45 100%);
+      color: #fff; font-size: 13.5px; font-weight: 700;
+      padding: 10px 20px; border-radius: var(--r-md);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: all .2s; white-space: nowrap;
+      box-shadow: 0 3px 12px rgba(201,151,58,0.35);
+    }
+    .btn-gold:hover { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,151,58,0.4); }
+    .btn-gold:active { transform: scale(.98); }
+
+    /* ─── Hero — Cinematic Full-Screen ─────────────── */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: 640px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; color: #fff; padding: 100px 24px 80px;
+      background: #062e1e url('../../spiagge-panama-playa-estrellas.jpg.image_.1296.974.high_.webp') center 40% / cover no-repeat;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(4,20,14,0.72) 0%,
+        rgba(6,30,20,0.52) 45%,
+        rgba(4,20,14,0.78) 100%
+      );
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+      background: linear-gradient(to top, #fff 0%, transparent 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2.8px;
+      text-transform: uppercase; opacity: .85; margin-bottom: 18px;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22);
+      padding: 6px 16px; border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(48px, 9vw, 78px);
+      font-weight: 700; line-height: 1.02; margin-bottom: 12px;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      letter-spacing: -.5px;
+    }
+    .hero-subtitle { font-size: 16px; opacity: .82; margin-bottom: 8px; font-weight: 300; letter-spacing: .3px; }
+    .hero-desc { font-size: 15px; max-width: 460px; margin: 0 auto 16px; opacity: .72; line-height: 1.7; }
+    .hero-rating { font-size: 14px; opacity: .88; margin-bottom: 42px; }
+
+    .price-compare {
+      display: flex; gap: 16px; max-width: 500px;
+      margin: 0 auto 40px; justify-content: center;
+    }
+    .pc {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--r-lg); padding: 22px 16px; text-align: center;
+      backdrop-filter: blur(16px) saturate(1.6);
+      -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    }
+    .pc.direct {
+      background: rgba(255,255,255,0.96);
+      color: var(--text-primary);
+      border: 2px solid #4ade80;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 0 0 1px rgba(74,222,128,0.3);
+    }
+    .pc-best-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+      color: #064e3b;
+      font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 4px 16px; border-radius: 20px; white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(34,197,94,0.4);
+    }
+    .pc-label { font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; opacity: .65; margin-bottom: 8px; }
+    .pc.direct .pc-label { color: var(--text-muted); opacity: 1; }
+    .pc-amount { font-size: 36px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .pc:not(.direct) .pc-amount { text-decoration: line-through; opacity: .45; font-size: 26px; }
+    .pc.direct .pc-amount { color: var(--primary); }
+    .pc-unit { font-size: 12px; opacity: .6; margin-bottom: 14px; }
+    .pc.direct .pc-unit { color: var(--text-muted); opacity: .8; }
+    .pc-perks { font-size: 12px; text-align: left; }
+    .pc-perks div { margin-bottom: 5px; opacity: .82; }
+    .pc.direct .pc-perks { color: var(--success); font-weight: 500; }
+
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--gold) 0%, #e0ab45 100%);
+      color: #fff; font-size: 17px; font-weight: 700;
+      padding: 18px 44px; border-radius: var(--r-md);
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 6px 28px rgba(201,151,58,0.5);
+      letter-spacing: -.1px;
+    }
+    .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(201,151,58,0.55); }
+    .btn-hero:active { transform: scale(.98); }
+
+    /* ─── Sections ─────────────────────────────────── */
+    .section { padding: 72px 24px; }
+    .section-alt { background: linear-gradient(160deg, #f0f7f4 0%, #fafaf8 100%); }
+    .section-inner { max-width: 940px; margin: 0 auto; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 700; margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .section-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 36px; }
+
+    /* ─── Room Cards — Luxury ───────────────────────── */
+    .rooms-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 18px; margin-bottom: 36px;
+    }
+    .room-card {
+      background: #fff; border: 2px solid var(--border);
+      border-radius: var(--r-xl); overflow: hidden;
+      cursor: pointer; transition: all .3s ease;
+      box-shadow: var(--shadow); position: relative;
+    }
+    .room-card:hover { border-color: var(--primary); box-shadow: 0 12px 40px rgba(10,92,66,.16); transform: translateY(-4px); }
+    .room-card.selected { border-color: var(--primary); box-shadow: 0 8px 32px rgba(10,92,66,.2); }
+    .room-img {
+      height: 200px; position: relative; overflow: hidden;
+      background-size: cover; background-position: center;
+    }
+    .room-img.standard {
+      background-image: url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80');
+      background-color: #5cb3a0;
+    }
+    .room-img.junior {
+      background-image: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80');
+      background-color: #3a9688;
+    }
+    .room-img.sea {
+      background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80');
+      background-color: #2980b9;
+    }
+    .room-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(5,25,15,0.55) 0%, transparent 55%);
+    }
+    .room-check {
+      position: absolute; top: 12px; right: 12px;
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--primary), #1a8a5a);
+      border-radius: 50%;
+      display: none; align-items: center; justify-content: center;
+      color: #fff; font-size: 14px; font-weight: 800;
+      box-shadow: 0 2px 10px rgba(10,92,66,0.4);
+    }
+    .room-card.selected .room-check { display: flex; }
+    .room-urgency {
+      position: absolute; bottom: 10px; left: 10px;
+      background: linear-gradient(135deg, #ea580c, #f97316);
+      color: #fff; font-size: 10px; font-weight: 800;
+      padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+      letter-spacing: .6px; box-shadow: 0 2px 8px rgba(234,88,12,0.4);
+    }
+    .room-info {
+      padding: 16px 18px 18px;
+      background: linear-gradient(to bottom, #fff 0%, #fafcfb 100%);
+    }
+    .room-name { font-size: 15px; font-weight: 700; margin-bottom: 5px; letter-spacing: -.1px; }
+    .room-price { font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 6px; line-height: 1; }
+    .room-price span { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+    .room-meta { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; }
+    .room-amenities { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .room-tag {
+      font-size: 10.5px; font-weight: 600; padding: 3px 9px;
+      border-radius: 20px; background: var(--bg-section);
+      color: var(--text-secondary); border: 1px solid var(--border);
+    }
+
+    /* ─── Availability Calendar ─────────────────────── */
+    .cal-section {
+      background: linear-gradient(160deg, #f5fbf8 0%, #edf7f2 100%);
+      border-top: 1px solid rgba(10,92,66,0.07);
+      border-bottom: 1px solid rgba(10,92,66,0.07);
+      padding: 36px 24px;
+    }
+    .cal-inner { max-width: 940px; margin: 0 auto; }
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .cal-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .cal-month-nav { display: flex; align-items: center; gap: 12px; }
+    .cal-month-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 700; min-width: 160px; text-align: center;
+      color: var(--text-primary);
+    }
+    .cal-nav-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #fff; border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; color: var(--text-secondary);
+      transition: all .2s;
+    }
+    .cal-nav-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .cal-legend { display: flex; gap: 18px; font-size: 12px; color: var(--text-muted); }
+    .cal-legend-item { display: flex; align-items: center; gap: 6px; }
+    .cal-dot { width: 10px; height: 10px; border-radius: 3px; }
+    .cal-dot.available { background: #fff; border: 1.5px solid var(--border); }
+    .cal-dot.booked { background: #e2e8e5; }
+    .cal-dot.selected { background: var(--primary); }
+    .cal-dot.range { background: var(--primary-light); }
+    .cal-grid {
+      background: #fff; border-radius: var(--r-xl);
+      box-shadow: 0 4px 24px rgba(10,92,66,0.09), 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden; border: 1px solid rgba(10,92,66,0.08);
+    }
+    .cal-days-header {
+      display: grid; grid-template-columns: repeat(7,1fr);
+      background: linear-gradient(135deg, var(--primary) 0%, #1a8a5a 100%);
+      padding: 12px 0;
+    }
+    .cal-day-name {
+      text-align: center; font-size: 11px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.8);
+    }
+    .cal-body { display: grid; grid-template-columns: repeat(7,1fr); padding: 8px; gap: 4px; }
+    .cal-cell {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: all .18s; position: relative;
+      color: var(--text-primary); user-select: none;
+    }
+    .cal-cell:hover:not(.cal-empty):not(.cal-past):not(.cal-booked) {
+      background: var(--primary-light); color: var(--primary);
+    }
+    .cal-cell.cal-empty { cursor: default; }
+    .cal-cell.cal-past { opacity: .3; cursor: not-allowed; }
+    .cal-cell.cal-today {
+      background: linear-gradient(135deg, var(--primary), #1a8a5a);
+      color: #fff; font-weight: 800;
+      box-shadow: 0 2px 10px rgba(10,92,66,0.35);
+    }
+    .cal-cell.cal-booked {
+      color: #b0c4bb; cursor: not-allowed;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(180,200,195,0.3) 4px, rgba(180,200,195,0.3) 5px);
+    }
+    .cal-cell.cal-selected {
+      background: linear-gradient(135deg, var(--primary), #1a8a5a);
+      color: #fff; font-weight: 800;
+      box-shadow: 0 3px 12px rgba(10,92,66,0.35);
+    }
+    .cal-cell.cal-in-range {
+      background: var(--primary-light); color: var(--primary); font-weight: 600;
+      border-radius: 0;
+    }
+    .cal-cell.cal-range-start { border-radius: 10px 0 0 10px; }
+    .cal-cell.cal-range-end { border-radius: 0 10px 10px 0; }
+    .cal-cell.cal-checkin-label::after, .cal-cell.cal-checkout-label::after {
+      content: attr(data-label);
+      position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      color: var(--primary); letter-spacing: .5px; white-space: nowrap;
+    }
+
+    /* ─── Booking Form — Glass ──────────────────────── */
+    .booking-form {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(10,92,66,0.1);
+      border-radius: var(--r-xl); padding: 32px;
+      box-shadow: 0 8px 40px rgba(10,92,66,0.1), 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+    .form-field label {
+      display: block; font-size: 11.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .8px;
+      color: var(--text-muted); margin-bottom: 8px;
+    }
+    .form-field input[type="date"] {
+      width: 100%; padding: 13px 16px; font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      color: var(--text-primary); background: var(--bg-white);
+      outline: none; cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-field input[type="date"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10,92,66,0.1);
+    }
+    .guests-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+    .guest-wrap {
+      display: flex; align-items: center;
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      overflow: hidden; background: var(--bg-white);
+    }
+    .guest-btn {
+      width: 46px; height: 50px; background: var(--bg-section);
+      border: none; font-size: 20px; color: var(--primary);
+      cursor: pointer; transition: background .15s; flex-shrink: 0;
+      font-weight: 700;
+    }
+    .guest-btn:hover { background: var(--primary-light); }
+    .guest-num { flex: 1; text-align: center; font-size: 18px; font-weight: 800; color: var(--text-primary); }
+    .date-error {
+      background: var(--danger-light); color: var(--danger);
+      font-size: 13px; font-weight: 500;
+      padding: 12px 16px; border-radius: var(--r-sm);
+      margin-bottom: 18px; display: none; border: 1px solid rgba(220,38,38,0.15);
+    }
+    .price-summary {
+      background: linear-gradient(160deg, #f5fbf8 0%, #f0f7f3 100%);
+      border: 1.5px solid rgba(10,92,66,0.1);
+      border-radius: var(--r-lg); padding: 20px; margin-bottom: 22px;
+    }
+    .sum-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary); padding: 6px 0; }
+    .sum-row.disc span:last-child { color: var(--success); font-weight: 700; }
+    .sum-divider { height: 1px; background: rgba(10,92,66,0.1); margin: 12px 0; }
+    .sum-total { display: flex; justify-content: space-between; font-size: 22px; font-weight: 900; padding: 6px 0; color: var(--text-primary); }
+    .sum-vs { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); padding: 5px 0; }
+    .savings-badge {
+      background: linear-gradient(135deg, #edfaf4, #d4f0e6);
+      border: 1px solid rgba(10,122,82,0.2);
+      border-radius: var(--r-md); padding: 11px 14px;
+      font-size: 13px; color: var(--success); font-weight: 700;
+      text-align: center; margin-top: 12px;
+    }
+    .btn-confirm {
+      display: block; width: 100%; padding: 19px;
+      background: linear-gradient(135deg, var(--primary) 0%, #1a8a5a 100%);
+      color: #fff; font-size: 17px; font-weight: 800; border: none;
+      border-radius: var(--r-lg); cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 6px 24px rgba(10,92,66,0.35);
+      letter-spacing: -.1px;
+    }
+    .btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(10,92,66,0.4); }
+    .btn-confirm:active { transform: scale(.99); }
+    .btn-confirm-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+    /* ─── Payment Overlay ───────────────────────────── */
+    .pay-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.72); z-index: 500;
+      overflow-y: auto; padding: 20px;
+    }
+    .pay-overlay.open { display: block; }
+    .pay-modal {
+      background: #fff; border-radius: var(--r-lg);
+      max-width: 900px; width: 100%;
+      margin: 0 auto; box-shadow: var(--shadow-lg);
+      animation: modalIn .25s ease;
+    }
+    @keyframes modalIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .pay-modal-inner {
+      display: grid; grid-template-columns: 300px 1fr;
+    }
+
+    /* Left: summary */
+    .pay-summary {
+      background: var(--bg-section); border-radius: var(--r-lg) 0 0 var(--r-lg);
+      padding: 32px 24px; border-right: 1px solid var(--border);
+    }
+    .pay-summary-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+    .pay-hotel-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .pay-room-line { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    .pay-dates {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 20px;
+      font-size: 14px;
+    }
+    .pay-dates-row { display: flex; justify-content: space-between; padding: 4px 0; }
+    .pay-dates-row .label { color: var(--text-muted); font-size: 12px; }
+    .pay-dates-row .val { font-weight: 600; }
+    .pay-price-rows { margin-bottom: 16px; }
+    .pay-pr { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary); padding: 5px 0; }
+    .pay-pr.disc { }
+    .pay-pr.disc span:last-child { color: var(--success); font-weight: 600; }
+    .pay-divider { height: 1px; background: var(--border); margin: 12px 0; }
+    .pay-total-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .pay-total-label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+    .pay-total-amount { font-size: 28px; font-weight: 900; color: var(--primary); }
+    .pay-best-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--success-light); border: 1px solid #bbf7d0;
+      color: var(--success); font-size: 12px; font-weight: 600;
+      padding: 5px 12px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .pay-savings {
+      background: var(--gold-light); border: 1px solid #f0ddb0;
+      border-radius: var(--r-sm); padding: 10px 12px;
+      font-size: 13px; color: #8a6520; font-weight: 500;
+    }
+    .pay-security { margin-top: 20px; }
+    .pay-security-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-bottom: 7px; }
+    .pay-security-item span:first-child { font-size: 14px; }
+
+    /* Right: form */
+    .pay-form-col { padding: 32px 28px; }
+    .pay-close-row { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+    .pay-close {
+      width: 32px; height: 32px; background: var(--bg-section);
+      border: 1px solid var(--border); border-radius: 50%;
+      cursor: pointer; font-size: 16px; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+    }
+    .pay-close:hover { background: var(--border); }
+    .pay-section-title { font-size: 14px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+
+    /* Guest form fields */
+    .pay-field { margin-bottom: 16px; }
+    .pay-field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; letter-spacing: .3px; }
+    .pay-field input,
+    .pay-field select,
+    .pay-field textarea {
+      width: 100%; padding: 11px 14px; font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--border); border-radius: var(--r-sm);
+      color: var(--text-primary); background: #fff;
+      outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    .pay-field input:focus,
+    .pay-field select:focus,
+    .pay-field textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,110,86,.1); }
+    .pay-field textarea { resize: vertical; min-height: 70px; }
+    .pay-field.error input,
+    .pay-field.error select { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(220,38,38,.1); }
+    .pay-field.valid input,
+    .pay-field.valid select { border-color: var(--success); }
+    .field-err { font-size: 12px; color: var(--danger); margin-top: 5px; display: none; }
+    .pay-field.error .field-err { display: block; }
+    .pay-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Payment tabs */
+    .pay-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; gap: 0; }
+    .pay-tab {
+      flex: 1; padding: 10px 8px; font-size: 13px; font-weight: 500;
+      color: var(--text-muted); border: none; background: none;
+      cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+      transition: color .2s, border-color .2s; text-align: center;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .pay-tab:hover { color: var(--text-primary); }
+    .pay-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .pay-tab-panel { display: none; }
+    .pay-tab-panel.active { display: block; }
+
+    /* Card panel */
+    .card-logos { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; }
+    .card-logo {
+      height: 24px; border: 1px solid var(--border); border-radius: 4px;
+      padding: 2px 6px; font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; min-width: 38px;
+    }
+    .card-logo.visa  { color: #1a1f71; }
+    .card-logo.mc    { background: linear-gradient(90deg,#eb001b 0%,#f79e1b 100%); color: #fff; }
+    .card-logo.amex  { background: #007bc1; color: #fff; }
+    .card-logo.disc  { background: #f60; color: #fff; }
+    .card-logo.active-card { box-shadow: 0 0 0 2px var(--primary); }
+    .card-number-wrap { position: relative; margin-bottom: 16px; }
+    .card-number-wrap input { letter-spacing: 2px; }
+    .card-type-indicator {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px;
+      display: none;
+    }
+    .pay-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg-section); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: 8px 12px;
+      font-size: 12px; color: var(--text-muted); margin-top: 12px;
+    }
+
+    /* Yappy panel */
+    .yappy-logo {
+      width: 80px; height: 36px; background: #00B140; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 15px; font-weight: 900; letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .yappy-hint { font-size: 13px; color: var(--text-muted); margin-top: 12px; line-height: 1.5; }
+
+    /* Bank transfer panel */
+    .bank-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .bank-table tr td { padding: 9px 12px; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .bank-table tr td:first-child { color: var(--text-muted); font-size: 12px; font-weight: 600; width: 40%; }
+    .bank-table tr:last-child td { border-bottom: none; }
+    .bank-ref {
+      background: var(--bg-section); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: 10px 14px; margin-bottom: 12px;
+      font-family: monospace; font-size: 16px; font-weight: 700; text-align: center;
+      letter-spacing: 2px; color: var(--primary);
+    }
+    .bank-warn {
+      background: #fffbeb; border: 1px solid #fde68a;
+      border-radius: var(--r-sm); padding: 10px 14px;
+      font-size: 13px; color: #78350f; line-height: 1.5;
+    }
+
+    /* PagueloFacil panel */
+    .pf-logo {
+      width: 140px; height: 40px; background: #003087; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 13px; font-weight: 800; letter-spacing: .5px;
+      margin-bottom: 16px;
+    }
+    .pf-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+
+    /* Pay button */
+    .btn-pay {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 17px;
+      background: var(--primary); color: #fff;
+      font-size: 17px; font-weight: 700; border: none;
+      border-radius: var(--r-md); cursor: pointer;
+      transition: background .2s, transform .1s;
+      margin-top: 24px;
+    }
+    .btn-pay:hover { background: var(--primary-dark); }
+    .btn-pay:active { transform: scale(.99); }
+    .btn-pay:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+    .pay-legal { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
+
+    /* Loading spinner */
+    .spinner-wrap { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0; }
+    .spinner-wrap.show { display: flex; }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid var(--primary-light);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-text { font-size: 15px; color: var(--text-secondary); font-weight: 500; }
+
+    /* Success screen */
+    .pay-success { display: none; padding: 48px 32px; text-align: center; }
+    .pay-success.show { display: block; }
+    .checkmark-wrap { margin: 0 auto 24px; width: 80px; height: 80px; }
+    .checkmark-svg { width: 80px; height: 80px; }
+    .checkmark-circle {
+      stroke: var(--success); stroke-width: 3;
+      stroke-dasharray: 166; stroke-dashoffset: 166;
+      animation: drawCircle .6s ease-in-out .1s forwards;
+    }
+    .checkmark-check {
+      stroke: var(--success); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 48; stroke-dashoffset: 48;
+      animation: drawCheck .4s ease-in-out .6s forwards;
+    }
+    @keyframes drawCircle {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+    .success-title { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+    .success-ref { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .success-ref strong { color: var(--primary); }
+    .success-notifications { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .success-notif {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--bg-section); border-radius: var(--r-sm);
+      padding: 10px 16px; font-size: 14px; color: var(--text-secondary);
+    }
+    .success-notif span:first-child { font-size: 18px; }
+    .success-details {
+      background: var(--bg-section); border-radius: var(--r-md);
+      padding: 16px 20px; margin-bottom: 24px; text-align: left;
+    }
+    .success-row { display: flex; justify-content: space-between; font-size: 14px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+    .success-row:last-child { border-bottom: none; font-weight: 700; font-size: 15px; }
+    .success-row span:first-child { color: var(--text-muted); }
+    .success-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+    .btn-success-sec {
+      padding: 12px 20px; background: var(--bg-section); color: var(--text-secondary);
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      font-size: 14px; font-weight: 600; cursor: pointer; transition: background .2s;
+    }
+    .btn-success-sec:hover { background: var(--border); }
+    .success-footer-note {
+      font-size: 13px; color: var(--text-muted); line-height: 1.6;
+      background: var(--primary-light); border-radius: var(--r-sm);
+      padding: 12px 16px; color: var(--primary-dark);
+    }
+
+    /* ─── Dashboard — Dark Glass ────────────────────── */
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.55;transform:scale(.8)} }
+    .dash-section {
+      background: linear-gradient(145deg, #041610 0%, #072a1c 40%, #0a3825 100%);
+      padding: 72px 24px; color: #fff; position: relative; overflow: hidden;
+    }
+    .dash-section::before {
+      content: ''; position: absolute; top: -200px; right: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(10,92,66,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .dash-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 36px; position: relative; }
+    .dash-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 5px;
+    }
+    .dash-sub { font-size: 14px; color: rgba(255,255,255,.4); }
+    .dash-header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .badge-panel {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      background: rgba(255,255,255,.06); color: rgba(255,255,255,.5);
+      border: 1px solid rgba(255,255,255,.12); padding: 6px 14px; border-radius: 20px;
+    }
+    .badge-active { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #4ade80; font-weight: 600; }
+    .pulse-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 36px; }
+    .mc {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--r-xl); padding: 22px 20px;
+      transition: transform .2s;
+    }
+    .mc:hover { transform: translateY(-2px); }
+    .mc-label { font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; opacity: .5; margin-bottom: 12px; color: #fff; }
+    .mc-val { font-size: 34px; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+    .mc-desc { font-size: 12px; opacity: .4; margin-bottom: 8px; color: #fff; }
+    .mc-delta { font-size: 12px; font-weight: 600; }
+    .mc.green { border-color: rgba(74,222,128,.18); }
+    .mc.green .mc-label,.mc.green .mc-val,.mc.green .mc-delta { color: #4ade80; }
+    .mc.blue  { border-color: rgba(96,165,250,.18); }
+    .mc.blue  .mc-label,.mc.blue  .mc-val,.mc.blue  .mc-delta { color: #60a5fa; }
+    .mc.gold  { border-color: rgba(201,151,58,.25); }
+    .mc.gold  .mc-label,.mc.gold  .mc-val,.mc.gold  .mc-delta { color: var(--gold); }
+    .mc.red   { border-color: rgba(248,113,113,.18); }
+    .mc.red   .mc-label,.mc.red   .mc-val { color: #f87171; }
+    .mc.red   .mc-delta { color: rgba(248,113,113,.55); }
+
+    .table-wrap {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--r-xl); overflow: hidden; margin-bottom: 28px;
+    }
+    .table-head { padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; justify-content: space-between; }
+    .table-head-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,.9); }
+    .table-head-note  { font-size: 12px; color: rgba(255,255,255,.3); }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 12px 24px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,.28); background: rgba(0,0,0,.12); border-bottom: 1px solid rgba(255,255,255,.05); }
+    tbody td { padding: 15px 24px; font-size: 14px; color: rgba(255,255,255,.7); border-bottom: 1px solid rgba(255,255,255,.04); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,.03); }
+    .ch-badge { background: rgba(74,222,128,.12); color: #4ade80; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(74,222,128,.2); }
+    .s-ok  { color: #4ade80; font-weight: 700; }
+    .s-pnd { color: #fbbf24; font-weight: 700; }
+    .table-foot-note { padding: 12px 24px; font-size: 12px; color: rgba(255,255,255,.25); background: rgba(0,0,0,.08); border-top: 1px solid rgba(255,255,255,.05); }
+
+    .chart-card {
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--r-xl); padding: 28px; margin-bottom: 36px;
+    }
+    .chart-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,.8); margin-bottom: 24px; }
+    .chart-row { margin-bottom: 20px; }
+    .chart-label { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 10px; display: flex; justify-content: space-between; }
+    .chart-track { background: rgba(255,255,255,.05); height: 36px; border-radius: 8px; overflow: hidden; }
+    .chart-bar { height: 100%; border-radius: 8px; display: flex; align-items: center; padding-left: 16px; font-size: 13px; font-weight: 700; color: #fff; width: 0%; transition: width 1.3s cubic-bezier(.25,.46,.45,.94); }
+    .bar-red   { background: linear-gradient(90deg, #991b1b, #dc2626, #ef4444); }
+    .bar-green { background: linear-gradient(90deg, var(--primary), #1a8a5a, #22c55e); }
+    .dash-cta-center { text-align: center; }
+
+    /* ─── Why Direct — Glass Cards ──────────────────── */
+    .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+    .why-card {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(10,92,66,0.1);
+      border-radius: var(--r-xl); padding: 34px 28px;
+      box-shadow: 0 4px 24px rgba(10,92,66,0.08);
+      text-align: center; transition: all .3s;
+    }
+    .why-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(10,92,66,0.14); }
+    .why-icon-wrap {
+      width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 18px;
+      background: linear-gradient(135deg, var(--primary-light), #c8ece3);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .why-icon { font-size: 30px; }
+    .why-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);
+    }
+    .why-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ─── Footer ────────────────────────────────────── */
+    .site-footer {
+      background: linear-gradient(160deg, #060f0a 0%, #0a1a12 100%);
+      color: rgba(255,255,255,.5); padding: 52px 24px; text-align: center;
+      border-top: 1px solid rgba(10,92,66,0.3);
+    }
+    .footer-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+    .footer-mark {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--primary), #1a8a5a);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-mark svg { width: 16px; height: 16px; }
+    .footer-name { font-size: 17px; font-weight: 700; color: rgba(255,255,255,.9); letter-spacing: -.2px; }
+    .footer-tag { font-size: 13px; opacity: .35; margin-bottom: 22px; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 22px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 12px; opacity: .2; }
+
+    /* ─── Responsive ────────────────────────────────── */
+    @media (max-width: 768px) {
+      .site-header { padding: 12px 16px; }
+      .header-sep, .header-hotel { display: none; }
+      .hero { min-height: 520px; padding: 70px 16px 60px; }
+      .price-compare { flex-direction: column; max-width: 300px; }
+      .section { padding: 52px 16px; }
+      .rooms-grid { grid-template-columns: 1fr; gap: 14px; }
+      .form-row, .guests-row { grid-template-columns: 1fr; }
+      .pay-modal-inner { grid-template-columns: 1fr; }
+      .pay-summary { border-radius: var(--r-xl) var(--r-xl) 0 0; border-right: none; border-bottom: 1px solid var(--border); }
+      .pay-form-col { padding: 24px 20px; }
+      .pay-tabs { flex-wrap: nowrap; overflow-x: auto; }
+      .pay-tab { min-width: 80px; font-size: 12px; padding: 10px 6px; }
+      .pay-grid-2 { grid-template-columns: 1fr; }
+      .success-btns { flex-direction: column; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .table-wrap { overflow-x: auto; }
+      table { min-width: 540px; }
+      .why-grid { grid-template-columns: 1fr; gap: 14px; }
+      .cal-body { gap: 2px; padding: 4px; }
+      .cal-cell { font-size: 13px; }
+      .cal-section { padding: 24px 16px; }
+    }
+    @media (max-width: 480px) {
+      .pay-modal { margin: 0; border-radius: 0; }
+      .pay-overlay { padding: 0; }
+      .metrics-grid { grid-template-columns: 1fr; }
+      .badge-demo { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sticky Header ──────────────────────────────── -->
+<header class="site-header">
+  <div class="header-left">
+    <div class="header-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="logo-name">Direct-Book <span>Bocas</span></span>
+    </div>
+    <div class="header-sep"></div>
+    <span class="header-hotel" id="header-hotel-name">· Bocas del Toro</span>
+  </div>
+  <div class="header-right">
+    <span class="badge-demo"><span class="demo-pulse"></span>Demo en vivo</span>
+    <a class="btn-gold" id="header-wa-btn" href="https://wa.me/50769XXXXXX" target="_blank" rel="noopener">
+      Instalar en mi hotel →
+    </a>
+  </div>
+</header>
+
+<main>
+
+<!-- ── Hero ───────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Reserva Directa · Sin Comisiones</p>
+    <h1 class="hero-title" id="hero-title">La Coralina</h1>
+    <p class="hero-desc">Ecohotel boutique en el paraíso caribeño. Reserva directo y paga el precio real, sin intermediarios.</p>
+    <p class="hero-rating">⭐⭐⭐⭐⭐ &nbsp;4.9 · 127 huéspedes verificados</p>
+
+    <div class="price-compare">
+      <div class="pc">
+        <div class="pc-label">Booking.com</div>
+        <div class="pc-amount" id="pc-booking">$177</div>
+        <div class="pc-unit">por noche</div>
+        <div class="pc-perks">
+          <div>✗ +18% comisión incluida</div>
+          <div>✗ Pago al intermediario</div>
+          <div>✗ Confirmación en horas</div>
+        </div>
+      </div>
+      <div class="pc direct">
+        <div class="pc-best-badge">MEJOR PRECIO AQUÍ</div>
+        <div class="pc-label">Reserva Directa</div>
+        <div class="pc-amount" id="pc-direct">$150</div>
+        <div class="pc-unit">por noche</div>
+        <div class="pc-perks">
+          <div>✓ Ahorra <span id="pc-save">$27</span>/noche</div>
+          <div>✓ Pago directo al hotel</div>
+          <div>✓ Confirmación en 2 min</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#reservar" class="btn-hero" id="hero-cta">Reservar ahora — $<span id="hero-price">150</span>/noche</a>
+  </div>
+</section>
+
+<!-- ── Booking Widget ──────────────────────────────── -->
+<section id="reservar" class="section">
+  <div class="section-inner">
+    <h2 class="section-title">Selecciona tus fechas</h2>
+    <p class="section-sub">Elige tu habitación, tus fechas y confirma en segundos.</p>
+
+    <div class="rooms-grid" id="rooms-grid">
+      <div class="room-card" data-type="standard" onclick="selectRoom(this)">
+        <div class="room-img standard">
+          <div class="room-img-overlay"></div>
+          <div class="room-check">✓</div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Habitación Estándar</div>
+          <div class="room-price" id="r-price-standard">$120 <span>/ noche</span></div>
+          <div class="room-meta">
+            <span>👤👤 hasta 2 personas</span>
+            <span style="color:var(--success);font-weight:700">2 disponibles</span>
+          </div>
+          <div class="room-amenities">
+            <span class="room-tag">🌿 Vista jardín</span>
+            <span class="room-tag">❄️ A/C</span>
+            <span class="room-tag">📶 WiFi</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="room-card selected" data-type="junior" onclick="selectRoom(this)">
+        <div class="room-img junior">
+          <div class="room-img-overlay"></div>
+          <div class="room-check">✓</div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Suite Junior</div>
+          <div class="room-price" id="r-price-junior">$150 <span>/ noche</span></div>
+          <div class="room-meta">
+            <span>👤👤👤 hasta 3 personas</span>
+            <span style="color:var(--success);font-weight:700">1 disponible</span>
+          </div>
+          <div class="room-amenities">
+            <span class="room-tag">🏖 Terraza privada</span>
+            <span class="room-tag">❄️ A/C</span>
+            <span class="room-tag">🛁 Jacuzzi</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="room-card" data-type="sea" onclick="selectRoom(this)">
+        <div class="room-img sea">
+          <div class="room-img-overlay"></div>
+          <div class="room-check">✓</div>
+          <div class="room-urgency">Última disponible</div>
+        </div>
+        <div class="room-info">
+          <div class="room-name">Suite Frente al Mar</div>
+          <div class="room-price" id="r-price-sea">$210 <span>/ noche</span></div>
+          <div class="room-meta">
+            <span>👤👤👤👤 hasta 4 personas</span>
+            <span style="color:#ea580c;font-weight:700">¡Última!</span>
+          </div>
+          <div class="room-amenities">
+            <span class="room-tag">🌊 Vista al mar</span>
+            <span class="room-tag">🛥 Muelle privado</span>
+            <span class="room-tag">🌅 Sunset</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Availability Calendar ── -->
+    <div class="cal-section" id="cal-section" style="margin:0 -24px; padding-left:24px; padding-right:24px;">
+      <div class="cal-inner" style="max-width:none;">
+        <div class="cal-header">
+          <div>
+            <div class="cal-title">Disponibilidad</div>
+          </div>
+          <div class="cal-month-nav">
+            <button class="cal-nav-btn" onclick="calNav(-1)">&#8249;</button>
+            <div class="cal-month-label" id="cal-month-label">Abril 2026</div>
+            <button class="cal-nav-btn" onclick="calNav(1)">&#8250;</button>
+          </div>
+          <div class="cal-legend">
+            <div class="cal-legend-item"><div class="cal-dot available"></div> Disponible</div>
+            <div class="cal-legend-item"><div class="cal-dot selected"></div> Seleccionado</div>
+            <div class="cal-legend-item"><div class="cal-dot booked"></div> Reservado</div>
+          </div>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-days-header">
+            <div class="cal-day-name">LUN</div>
+            <div class="cal-day-name">MAR</div>
+            <div class="cal-day-name">MIÉ</div>
+            <div class="cal-day-name">JUE</div>
+            <div class="cal-day-name">VIE</div>
+            <div class="cal-day-name">SÁB</div>
+            <div class="cal-day-name">DOM</div>
+          </div>
+          <div class="cal-body" id="cal-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-form" style="margin-top:32px;">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Check-in</label>
+          <input type="date" id="checkin" />
+        </div>
+        <div class="form-field">
+          <label>Check-out</label>
+          <input type="date" id="checkout" />
+        </div>
+      </div>
+
+      <div class="guests-row">
+        <div class="form-field">
+          <label>Adultos</label>
+          <div class="guest-wrap">
+            <button class="guest-btn" onclick="changeGuests('adults',-1)">−</button>
+            <span class="guest-num" id="adults-num">2</span>
+            <button class="guest-btn" onclick="changeGuests('adults',1)">+</button>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Niños</label>
+          <div class="guest-wrap">
+            <button class="guest-btn" onclick="changeGuests('children',-1)">−</button>
+            <span class="guest-num" id="children-num">0</span>
+            <button class="guest-btn" onclick="changeGuests('children',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="date-error" id="date-error">Selecciona fechas válidas: el check-out debe ser al menos 1 noche después del check-in.</div>
+
+      <div class="price-summary">
+        <div class="sum-row">
+          <span id="sum-room-label">Suite Junior</span>
+          <span id="sum-room-price">$150 × 3 noches</span>
+        </div>
+        <div class="sum-row disc">
+          <span>Descuento reserva directa (10%)</span>
+          <span id="sum-discount">−$45</span>
+        </div>
+        <div class="sum-divider"></div>
+        <div class="sum-total">
+          <span>Total</span>
+          <span id="sum-total">$405</span>
+        </div>
+        <div class="sum-divider"></div>
+        <div class="sum-vs">
+          <span>En Booking pagarías:</span>
+          <span id="sum-booking" style="text-decoration:line-through">$531</span>
+        </div>
+        <div class="savings-badge">✓ Ahorras <span id="sum-savings">$126</span> reservando directo</div>
+      </div>
+
+      <button class="btn-confirm" onclick="openPayModal()">
+        Confirmar Reserva — <span id="btn-total">$405</span>
+      </button>
+      <p class="btn-confirm-note">🔒 Pago seguro &nbsp;·&nbsp; Confirmación en 2 minutos &nbsp;·&nbsp; Sin cargos adicionales</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Dashboard ──────────────────────────────────── -->
+<section class="dash-section" id="dashboard">
+  <div class="section-inner">
+    <div class="dash-header">
+      <div>
+        <div class="dash-title" id="dash-title">Panel de Control</div>
+        <div class="dash-sub" id="dash-month"></div>
+      </div>
+      <div class="dash-header-right">
+        <span class="badge-panel">Panel del Hotelero · Solo tú lo ves</span>
+        <div class="badge-active"><div class="pulse-dot"></div> Sistema activo</div>
+      </div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="mc green">
+        <div class="mc-label">Recuperado este mes</div>
+        <div class="mc-val" id="m-recov">$0</div>
+        <div class="mc-desc">en comisiones ahorradas</div>
+        <div class="mc-delta" id="m-recov-delta">↑ vs mes pasado</div>
+      </div>
+      <div class="mc blue">
+        <div class="mc-label">Reservas directas</div>
+        <div class="mc-val" id="m-books">0</div>
+        <div class="mc-desc">este mes</div>
+        <div class="mc-delta">↑ 18 más que el mes pasado</div>
+      </div>
+      <div class="mc gold">
+        <div class="mc-label">Tasa de conversión</div>
+        <div class="mc-val" id="m-conv">0%</div>
+        <div class="mc-desc">visitantes que reservan</div>
+        <div class="mc-delta">↑ promedio industria: 2%</div>
+      </div>
+      <div class="mc red">
+        <div class="mc-label">Ya no le pagas a Booking</div>
+        <div class="mc-val" id="m-saved">$0</div>
+        <div class="mc-desc">este mes</div>
+        <div class="mc-delta">(antes lo perdías cada mes)</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head">
+        <span class="table-head-title">Reservas recientes</span>
+        <span class="table-head-note">Últimas 5 reservas</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>#</th><th>Huésped</th><th>Habitación</th><th>Fechas</th><th>Total</th><th>Canal</th><th>Estado</th></tr>
+        </thead>
+        <tbody id="dash-reservations">
+          <tr><td>1</td><td>John M. (USA)</td><td>Suite Mar</td><td>14–17 Abr</td><td id="dt1">$630</td><td><span class="ch-badge">Directo</span></td><td class="s-ok">✅ Confirmado</td></tr>
+          <tr><td>2</td><td>Sarah K. (UK)</td><td>Suite Junior</td><td>15–19 Abr</td><td id="dt2">$600</td><td><span class="ch-badge">Directo</span></td><td class="s-ok">✅ Confirmado</td></tr>
+          <tr><td>3</td><td>Carlos R. (PA)</td><td>Estándar</td><td>16–18 Abr</td><td id="dt3">$240</td><td><span class="ch-badge">Directo</span></td><td class="s-ok">✅ Confirmado</td></tr>
+          <tr><td>4</td><td>Emma W. (DE)</td><td>Suite Mar</td><td>18–22 Abr</td><td id="dt4">$840</td><td><span class="ch-badge">Directo</span></td><td class="s-pnd">🔄 Pendiente</td></tr>
+          <tr><td>5</td><td>Liu W. (CN)</td><td>Suite Junior</td><td>20–24 Abr</td><td id="dt5">$600</td><td><span class="ch-badge">Directo</span></td><td class="s-ok">✅ Confirmado</td></tr>
+        </tbody>
+      </table>
+      <div class="table-foot-note" id="dash-table-note">100% de estas reservas habrían costado $558 en comisiones a Booking.</div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Comisiones: antes vs. ahora</div>
+      <div class="chart-row">
+        <div class="chart-label">
+          <span>Mes anterior (con Booking)</span>
+          <span id="bar-before-label" style="color:#f87171">$0 a Booking</span>
+        </div>
+        <div class="chart-track"><div class="chart-bar bar-red" id="bar-before">$0</div></div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">
+          <span>Este mes (con Direct-Book)</span>
+          <span id="bar-after-label" style="color:#4ade80">$0 en tu cuenta</span>
+        </div>
+        <div class="chart-track"><div class="chart-bar bar-green" id="bar-after">$0</div></div>
+      </div>
+    </div>
+
+    <div class="dash-cta-center">
+      <a class="btn-gold" id="dash-wa-btn" style="font-size:16px;padding:16px 34px" href="https://wa.me/50769XXXXXX" target="_blank" rel="noopener">
+        🚀 Quiero este panel para mi hotel → Hablar con el equipo
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Por qué reservar directo ───────────────────── -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <h2 class="section-title" style="text-align:center;margin-bottom:6px">¿Por qué hacerlo ahora?</h2>
+    <p class="section-sub" style="text-align:center">Tu dinero, tu hotel, tu control.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon-wrap"><div class="why-icon">💰</div></div>
+        <h3 class="why-title">El precio real</h3>
+        <p class="why-desc">Cuando reservas por Booking o Airbnb, pagas hasta 18% más. Ese dinero va a San Francisco, no al hotel donde te hospedarás.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon-wrap"><div class="why-icon">⚡</div></div>
+        <h3 class="why-title">Confirmación en 2 min</h3>
+        <p class="why-desc">El hotel recibe tu pago directamente. Sin esperas, sin intermediarios, sin que nadie retenga tu dinero durante semanas.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon-wrap"><div class="why-icon">🤖</div></div>
+        <h3 class="why-title">Inteligencia Artificial</h3>
+        <p class="why-desc">Implementa un chat inteligente que ahorra tiempo al recepcionista, automatiza las ventas de tours y recomienda lo que el huésped necesita en tiempo real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ─────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="footer-logo">
+    <div class="footer-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <span class="footer-name">Direct-Book Bocas</span>
+  </div>
+  <p class="footer-tag">Tecnología desarrollada por SaaS Factory Bocas · Panamá</p>
+  <div class="footer-links">
+    <a href="#">Política de privacidad</a>
+    <a href="#">Términos de uso</a>
+    <a href="https://wa.me/50769XXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+  <p class="footer-copy">© 2026 Direct-Book Bocas · SaaS Factory Bocas · Todos los derechos reservados</p>
+</footer>
+
+<!-- ── Payment Modal ───────────────────────────────── -->
+<div class="pay-overlay" id="pay-overlay">
+  <div class="pay-modal">
+    <!-- State: form -->
+    <div id="pay-form-state">
+      <div class="pay-modal-inner">
+        <!-- Left: summary -->
+        <div class="pay-summary">
+          <div class="pay-summary-title">Resumen de tu reserva</div>
+          <div class="pay-hotel-name" id="ps-hotel">La Coralina</div>
+          <div class="pay-room-line" id="ps-room">Suite Junior · 2 adultos</div>
+
+          <div class="pay-dates">
+            <div class="pay-dates-row"><span class="label">Check-in</span><span class="val" id="ps-checkin">—</span></div>
+            <div class="pay-dates-row"><span class="label">Check-out</span><span class="val" id="ps-checkout">—</span></div>
+            <div class="pay-dates-row"><span class="label">Noches</span><span class="val" id="ps-nights">3</span></div>
+          </div>
+
+          <div class="pay-price-rows">
+            <div class="pay-pr"><span id="ps-subtotal-label">Suite Junior × 3 noches</span><span id="ps-subtotal">$450</span></div>
+            <div class="pay-pr disc"><span>Descuento directo (10%)</span><span id="ps-discount">−$45</span></div>
+          </div>
+          <div class="pay-divider"></div>
+          <div class="pay-total-row">
+            <span class="pay-total-label">Total a pagar</span>
+            <span class="pay-total-amount" id="ps-total">$405</span>
+          </div>
+          <div class="pay-best-badge">✅ Mejor precio garantizado</div>
+          <div class="pay-savings" id="ps-savings">💚 Ahorras $126 vs Booking.com</div>
+
+          <div class="pay-security">
+            <div class="pay-security-item"><span>🔒</span><span>Pago cifrado SSL 256-bit</span></div>
+            <div class="pay-security-item"><span>✅</span><span>Confirmación inmediata</span></div>
+            <div class="pay-security-item"><span>📱</span><span>WhatsApp en 2 min</span></div>
+            <div class="pay-security-item"><span>🏨</span><span>100% al hotel, sin comisiones</span></div>
+          </div>
+        </div>
+
+        <!-- Right: form -->
+        <div class="pay-form-col">
+          <div class="pay-close-row">
+            <button class="pay-close" onclick="closePayModal()" title="Cerrar">✕</button>
+          </div>
+
+          <!-- Guest info -->
+          <div class="pay-section-title">Datos del huésped</div>
+
+          <div class="pay-field" id="f-name">
+            <label>Nombre completo *</label>
+            <input type="text" id="guest-name" placeholder="Juan Rodríguez" autocomplete="name" />
+            <div class="field-err" id="err-name">Ingresa tu nombre completo (mínimo 3 caracteres)</div>
+          </div>
+
+          <div class="pay-grid-2">
+            <div class="pay-field" id="f-email">
+              <label>Email *</label>
+              <input type="email" id="guest-email" placeholder="juan@email.com" autocomplete="email" />
+              <div class="field-err" id="err-email">Ingresa un email válido</div>
+            </div>
+            <div class="pay-field" id="f-phone">
+              <label>Teléfono / WhatsApp *</label>
+              <input type="tel" id="guest-phone" placeholder="+507 6XXX-XXXX" autocomplete="tel" />
+              <div class="field-err" id="err-phone">Ingresa tu teléfono</div>
+            </div>
+          </div>
+
+          <div class="pay-field" id="f-country">
+            <label>País de origen *</label>
+            <select id="guest-country">
+              <option value="">Selecciona tu país...</option>
+              <option value="PA">🇵🇦 Panamá</option>
+              <option value="US">🇺🇸 Estados Unidos</option>
+              <option value="CR">🇨🇷 Costa Rica</option>
+              <option value="CO">🇨🇴 Colombia</option>
+              <option value="MX">🇲🇽 México</option>
+              <option value="GB">🇬🇧 Reino Unido</option>
+              <option value="DE">🇩🇪 Alemania</option>
+              <option value="FR">🇫🇷 Francia</option>
+              <option value="CA">🇨🇦 Canadá</option>
+              <option value="AU">🇦🇺 Australia</option>
+              <option value="OTHER">🌍 Otro país</option>
+            </select>
+            <div class="field-err" id="err-country">Selecciona tu país</div>
+          </div>
+
+          <div class="pay-field">
+            <label>Solicitudes especiales (opcional)</label>
+            <textarea id="guest-requests" placeholder="Cama extra, llegada tardía, alergias alimentarias..."></textarea>
+          </div>
+
+          <!-- Payment method -->
+          <div class="pay-section-title" style="margin-top:8px">Método de pago</div>
+
+          <div class="pay-tabs">
+            <button class="pay-tab active" onclick="switchTab('card',this)">💳 Tarjeta</button>
+            <button class="pay-tab" onclick="switchTab('yappy',this)">📱 Yappy</button>
+            <button class="pay-tab" onclick="switchTab('bank',this)">🏦 Transferencia</button>
+            <button class="pay-tab" onclick="switchTab('pf',this)">🇵🇦 PagueloFácil</button>
+          </div>
+
+          <!-- Tab: Card -->
+          <div class="pay-tab-panel active" id="tab-card">
+            <div class="card-logos">
+              <div class="card-logo visa" id="logo-visa">VISA</div>
+              <div class="card-logo mc" id="logo-mc">MC</div>
+              <div class="card-logo amex" id="logo-amex">AMEX</div>
+              <div class="card-logo disc" id="logo-disc">DISC</div>
+            </div>
+
+            <div class="pay-field" id="f-cardnum">
+              <label>Número de tarjeta *</label>
+              <div class="card-number-wrap">
+                <input type="text" id="card-number" placeholder="4532 XXXX XXXX XXXX" maxlength="19" inputmode="numeric" />
+                <div class="card-type-indicator" id="card-type-badge"></div>
+              </div>
+              <div class="field-err" id="err-cardnum">Ingresa un número de tarjeta válido</div>
+            </div>
+
+            <div class="pay-field" id="f-cardholder">
+              <label>Nombre en la tarjeta *</label>
+              <input type="text" id="card-holder" placeholder="JUAN RODRIGUEZ" style="text-transform:uppercase" />
+              <div class="field-err" id="err-cardholder">Ingresa el nombre tal como aparece en la tarjeta</div>
+            </div>
+
+            <div class="pay-grid-2">
+              <div class="pay-field" id="f-expiry">
+                <label>Vencimiento *</label>
+                <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" inputmode="numeric" />
+                <div class="field-err" id="err-expiry">Fecha inválida o expirada</div>
+              </div>
+              <div class="pay-field" id="f-cvv">
+                <label>CVV 🔒</label>
+                <input type="password" id="card-cvv" placeholder="•••" maxlength="4" inputmode="numeric" />
+                <div class="field-err" id="err-cvv">CVV inválido</div>
+              </div>
+            </div>
+
+            <div class="pay-badge">🔒 Procesado por Stripe · Cifrado SSL · PCI DSS Nivel 1</div>
+          </div>
+
+          <!-- Tab: Yappy -->
+          <div class="pay-tab-panel" id="tab-yappy">
+            <div class="yappy-logo">YAPPY</div>
+            <div class="pay-field" id="f-yappy">
+              <label>Número de teléfono Yappy *</label>
+              <input type="tel" id="yappy-phone" placeholder="+507 6XXX-XXXX" />
+              <div class="field-err" id="err-yappy">Ingresa un número válido de Panamá (+507)</div>
+            </div>
+            <div class="yappy-hint">Al confirmar, recibirás una solicitud de pago en tu app Yappy por el monto exacto. Tienes 10 minutos para aprobarla.</div>
+            <div class="pay-badge" style="margin-top:12px">✓ Método de pago preferido en Panamá · Aprobado por la SBP</div>
+          </div>
+
+          <!-- Tab: Bank transfer -->
+          <div class="pay-tab-panel" id="tab-bank">
+            <p style="font-size:14px;color:var(--text-secondary);margin-bottom:14px">Realiza tu transferencia a cualquiera de estas cuentas:</p>
+            <table class="bank-table">
+              <tr><td>Banco</td><td><strong>Banistmo / Banco General</strong></td></tr>
+              <tr><td>A nombre de</td><td><strong id="bank-hotel-name">La Coralina S.A.</strong></td></tr>
+              <tr><td>Cuenta</td><td><strong>0123-4567-8910-1112</strong></td></tr>
+              <tr><td>Tipo</td><td>Cuenta Corriente</td></tr>
+            </table>
+            <div class="pay-section-title" style="font-size:12px;margin-bottom:8px">Referencia de pago</div>
+            <div class="bank-ref" id="bank-ref">RESERVA-DBB-0000</div>
+            <div class="bank-warn">
+              ⚠️ <strong>Importante:</strong> Tu reserva se confirma en 24h tras verificar el depósito. Envía el comprobante por WhatsApp al número de confirmación. Usa exactamente la referencia indicada.
+            </div>
+          </div>
+
+          <!-- Tab: PagueloFácil -->
+          <div class="pay-tab-panel" id="tab-pf">
+            <div class="pf-logo">PagueloFácil</div>
+            <p class="pf-desc">Serás redirigido a la plataforma segura de PagueloFácil para completar tu pago con tarjeta de crédito/débito o en efectivo en más de 400 puntos autorizados en Panamá.</p>
+            <div class="pay-badge">🔒 Plataforma certificada en Panamá · Autorizada por la SBP · Más de 1M transacciones</div>
+          </div>
+
+          <!-- Pay button -->
+          <button class="btn-pay" id="btn-pay" onclick="processPayment()">
+            🔒 Confirmar y Pagar <span id="btn-pay-amount">$405</span>
+          </button>
+          <p class="pay-legal">Al confirmar aceptas los términos del hotel y la política de cancelación. Tu información de pago está cifrada y nunca se almacena.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- State: loading -->
+    <div class="spinner-wrap" id="pay-loading-state">
+      <div class="spinner"></div>
+      <div class="spinner-text">Procesando tu pago de forma segura...</div>
+    </div>
+
+    <!-- State: success -->
+    <div class="pay-success" id="pay-success-state">
+      <div class="checkmark-wrap">
+        <svg class="checkmark-svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="24" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <h2 class="success-title">¡Reserva Confirmada!</h2>
+      <p class="success-ref">Número de reserva: <strong id="success-ref">#DBB-2026-0847</strong></p>
+
+      <div class="success-notifications">
+        <div class="success-notif"><span>📧</span><span>Confirmación enviada a: <strong id="success-email">tu@email.com</strong></span></div>
+        <div class="success-notif"><span>📱</span><span>WhatsApp de confirmación en camino</span></div>
+      </div>
+
+      <div class="success-details">
+        <div class="success-row"><span>Hotel</span><span id="s-hotel">La Coralina</span></div>
+        <div class="success-row"><span>Habitación</span><span id="s-room">Suite Junior</span></div>
+        <div class="success-row"><span>Check-in</span><span id="s-checkin">—</span></div>
+        <div class="success-row"><span>Check-out</span><span id="s-checkout">—</span></div>
+        <div class="success-row"><span>Total pagado</span><span id="s-total" style="color:var(--primary)">$405</span></div>
+      </div>
+
+      <div class="success-btns">
+        <button class="btn-success-sec" onclick="closePayModal()">← Volver al inicio</button>
+        <button class="btn-success-sec" onclick="downloadPDF()">📄 Descargar confirmación</button>
+      </div>
+
+      <div class="success-footer-note">
+        ✨ Gracias por reservar directo. Tu pago llegó al 100% al hotel, sin comisiones para nadie más. ¡Nos vemos en Bocas del Toro!
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ─── URL Params ─────────────────────────────────────────── */
+  const params      = new URLSearchParams(window.location.search);
+  const hotelNombre = params.get('nombre') || 'La Coralina';
+  const habitaciones= parseInt(params.get('hab'))     || 10;
+  const precioProm  = parseInt(params.get('precio'))  || 150;
+  const ocupacion   = parseInt(params.get('ocupacion'))|| 70;
+  const pctOTA      = parseInt(params.get('ota'))     || 80;
+  const perdidaMes  = parseInt(params.get('perdida')) || 4284;
+
+  /* ─── Derived prices ─────────────────────────────────────── */
+  const PRICES = {
+    standard: Math.round(precioProm * 0.8),
+    junior:   precioProm,
+    sea:      Math.round(precioProm * 1.4)
+  };
+
+  /* ─── Booking state ──────────────────────────────────────── */
+  const S = {
+    price:    PRICES.junior,
+    roomType: 'junior',
+    name:     'Suite Junior',
+    nights:   3,
+    adults:   2,
+    children: 0
+  };
+
+  /* ─── DOM shortcuts ─────────────────────────────────────── */
+  const $  = id => document.getElementById(id);
+  const ci = $('checkin'), co = $('checkout');
+
+  /* ─── Formatters ─────────────────────────────────────────── */
+  const fmtUSD  = n => '$' + Math.round(n).toLocaleString('en-US');
+  const toISO   = d => d.toISOString().split('T')[0];
+  const diffDay = (a,b) => Math.round((b-a)/86400000);
+  const fmtDate = s => {
+    if (!s) return '—';
+    const d = new Date(s + 'T12:00:00');
+    return d.toLocaleDateString('es-PA', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+  };
+  const genRef  = () => 'DBB-2026-' + String(Math.floor(Math.random()*9000)+1000);
+
+  /* ─── Populate dynamic content ───────────────────────────── */
+  function populateDynamic() {
+    document.title = `${hotelNombre} · Direct-Book Bocas`;
+    $('header-hotel-name').textContent = `${hotelNombre} · Bocas del Toro`;
+    $('hero-title').textContent        = hotelNombre;
+    $('dash-title').textContent        = `Panel de Control · ${hotelNombre}`;
+    $('ps-hotel').textContent          = hotelNombre;
+    $('bank-hotel-name').textContent   = `${hotelNombre} S.A.`;
+    $('s-hotel').textContent           = hotelNombre;
+
+    // Room prices
+    $('r-price-standard').innerHTML = `${fmtUSD(PRICES.standard)} <span>/ noche</span>`;
+    $('r-price-junior').innerHTML   = `${fmtUSD(PRICES.junior)} <span>/ noche</span>`;
+    $('r-price-sea').innerHTML      = `${fmtUSD(PRICES.sea)} <span>/ noche</span>`;
+
+    // Hero price compare
+    const bookingPrice = Math.round(precioProm * 1.18);
+    $('pc-booking').textContent = fmtUSD(bookingPrice);
+    $('pc-direct').textContent  = fmtUSD(precioProm);
+    $('pc-save').textContent    = fmtUSD(bookingPrice - precioProm);
+    $('hero-price').textContent = precioProm;
+
+    // WA links
+    const waMsg = encodeURIComponent(`Hola! Vi la demo de Direct-Book Bocas personalizada para ${hotelNombre} y quiero instalarlo en mi hotel.`);
+    const waUrl = `https://wa.me/50769XXXXXX?text=${waMsg}`;
+    $('header-wa-btn').href = waUrl;
+    $('dash-wa-btn').href   = waUrl;
+
+    // Dashboard metrics
+    const reservasDirectas = Math.max(1, Math.round(perdidaMes / (precioProm * 0.17)));
+    $('m-recov-delta').textContent = `↑ vs $${Math.round(perdidaMes*0.4).toLocaleString('en-US')} el mes pasado`;
+    $('bar-before-label').textContent = `${fmtUSD(perdidaMes)} a Booking`;
+    $('bar-after-label').textContent  = `${fmtUSD(perdidaMes)} en tu cuenta`;
+    $('bar-before').textContent       = fmtUSD(perdidaMes);
+    $('bar-after').textContent        = fmtUSD(perdidaMes);
+
+    // Scale table amounts by price ratio
+    const ratio = precioProm / 150;
+    ['dt1','dt2','dt3','dt4','dt5'].forEach((id, i) => {
+      const baseAmounts = [630, 600, 240, 840, 600];
+      $(id).textContent = fmtUSD(Math.round(baseAmounts[i] * ratio));
+    });
+
+    // Dashboard table note
+    const tableTotal = Math.round([630,600,240,840,600].reduce((a,b)=>a+b,0) * ratio * 0.17);
+    $('dash-table-note').textContent = `100% de estas reservas habrían costado ${fmtUSD(tableTotal)} en comisiones a Booking.`;
+
+    // Bank ref
+    $('bank-ref').textContent = `RESERVA-DBB-${String(Math.floor(Math.random()*9000)+1000)}`;
+  }
+
+  /* ─── Date init ──────────────────────────────────────────── */
+  function initDates() {
+    const today   = new Date();
+    const inDate  = new Date(today); inDate.setDate(today.getDate() + 3);
+    const outDate = new Date(inDate); outDate.setDate(inDate.getDate() + 3);
+    ci.value = toISO(inDate);
+    co.value = toISO(outDate);
+    ci.min   = toISO(today);
+    co.min   = toISO(inDate);
+    S.nights = 3;
+  }
+
+  ci.addEventListener('change', () => {
+    if (ci.value) {
+      const next = new Date(ci.value + 'T12:00:00');
+      next.setDate(next.getDate() + 1);
+      co.min = toISO(next);
+      if (co.value && co.value <= ci.value) co.value = toISO(next);
+    }
+    validateDates();
+  });
+  co.addEventListener('change', validateDates);
+
+  function validateDates() {
+    const err = $('date-error');
+    if (ci.value && co.value && co.value > ci.value) {
+      const n = diffDay(new Date(ci.value+'T12:00:00'), new Date(co.value+'T12:00:00'));
+      if (n > 30) { err.textContent = 'Máximo 30 noches por reserva.'; err.style.display='block'; S.nights=0; }
+      else        { S.nights = n; err.style.display='none'; }
+    } else if (ci.value && co.value && co.value <= ci.value) {
+      S.nights = 0; err.textContent='El check-out debe ser posterior al check-in.'; err.style.display='block';
+    }
+    updateSummary();
+  }
+
+  /* ─── Room selection ─────────────────────────────────────── */
+  function selectRoom(card) {
+    document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    const type   = card.dataset.type;
+    S.price     = PRICES[type];
+    S.roomType  = type;
+    S.name      = card.querySelector('.room-name').textContent;
+    updateSummary();
+  }
+
+  /* ─── Guest counters ─────────────────────────────────────── */
+  function changeGuests(type, delta) {
+    if (type === 'adults') {
+      const v = Math.min(Math.max(1, parseInt($('adults-num').textContent) + delta), 4);
+      $('adults-num').textContent = v; S.adults = v;
+    } else {
+      const v = Math.min(Math.max(0, parseInt($('children-num').textContent) + delta), 3);
+      $('children-num').textContent = v; S.children = v;
+    }
+  }
+
+  /* ─── Price calculation ──────────────────────────────────── */
+  function updateSummary() {
+    const sub     = S.price * S.nights;
+    const disc    = sub * 0.10;
+    const total   = sub - disc;
+    const booking = S.price * 1.18 * S.nights;
+    const savings = booking - total;
+    S.total  = total;
+    S.sub    = sub;
+    S.disc   = disc;
+    S.savings = savings;
+
+    $('sum-room-label').textContent   = S.name;
+    $('sum-room-price').textContent   = `${fmtUSD(S.price)} × ${S.nights} noche${S.nights!==1?'s':''}`;
+    $('sum-discount').textContent     = `−${fmtUSD(disc)}`;
+    $('sum-total').textContent        = fmtUSD(total);
+    $('btn-total').textContent        = fmtUSD(total);
+    $('sum-booking').textContent      = fmtUSD(booking);
+    $('sum-savings').textContent      = fmtUSD(savings);
+  }
+
+  /* ─── Open/Close payment modal ───────────────────────────── */
+  function openPayModal() {
+    if (!ci.value || !co.value || co.value <= ci.value || S.nights === 0) {
+      $('date-error').style.display = 'block';
+      $('reservar').scrollIntoView({ behavior:'smooth' });
+      return;
+    }
+    // Populate payment summary
+    const guestLine = `${S.name} · ${S.adults} adulto${S.adults>1?'s':''}${S.children>0?`, ${S.children} niño${S.children>1?'s':''}`:''}`;
+    $('ps-room').textContent         = guestLine;
+    $('ps-checkin').textContent      = fmtDate(ci.value);
+    $('ps-checkout').textContent     = fmtDate(co.value);
+    $('ps-nights').textContent       = `${S.nights} noche${S.nights!==1?'s':''}`;
+    $('ps-subtotal-label').textContent = `${S.name} × ${S.nights} noche${S.nights!==1?'s':''}`;
+    $('ps-subtotal').textContent     = fmtUSD(S.sub);
+    $('ps-discount').textContent     = `−${fmtUSD(S.disc)}`;
+    $('ps-total').textContent        = fmtUSD(S.total);
+    $('ps-savings').textContent      = `💚 Ahorras ${fmtUSD(S.savings)} vs Booking.com`;
+    $('btn-pay-amount').textContent  = fmtUSD(S.total);
+
+    // Reset to form state
+    $('pay-form-state').style.display   = '';
+    $('pay-loading-state').className    = 'spinner-wrap';
+    $('pay-success-state').className    = 'pay-success';
+
+    $('pay-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Scroll overlay to top
+    $('pay-overlay').scrollTop = 0;
+  }
+
+  function closePayModal() {
+    $('pay-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  $('pay-overlay').addEventListener('click', e => {
+    if (e.target === $('pay-overlay')) closePayModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePayModal(); });
+
+  /* ─── Payment tabs ───────────────────────────────────────── */
+  let activeTab = 'card';
+  function switchTab(name, btn) {
+    activeTab = name;
+    document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pay-tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    $('tab-' + name).classList.add('active');
+  }
+
+  /* ─── Card number formatting & detection ─────────────────── */
+  $('card-number').addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').slice(0,16);
+    this.value = v.replace(/(.{4})/g,'$1 ').trim();
+    detectCardType(v);
+  });
+
+  $('card-expiry').addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'');
+    if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2,4);
+    this.value = v;
+  });
+
+  $('card-cvv').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g,'').slice(0,4);
+  });
+
+  function detectCardType(num) {
+    ['logo-visa','logo-mc','logo-amex','logo-disc'].forEach(id => {
+      $(id).classList.remove('active-card');
+    });
+    const badge = $('card-type-badge');
+    if      (/^4/.test(num))        { $('logo-visa').classList.add('active-card'); badge.textContent='VISA';  badge.style.cssText='display:block;background:#1a1f71;color:#fff;'; }
+    else if (/^5[1-5]/.test(num))   { $('logo-mc').classList.add('active-card');   badge.textContent='MC';    badge.style.cssText='display:block;background:#f79e1b;color:#fff;'; }
+    else if (/^3[47]/.test(num))    { $('logo-amex').classList.add('active-card'); badge.textContent='AMEX'; badge.style.cssText='display:block;background:#007bc1;color:#fff;'; }
+    else if (/^6/.test(num))        { $('logo-disc').classList.add('active-card'); badge.textContent='DISC'; badge.style.cssText='display:block;background:#f60;color:#fff;'; }
+    else { badge.style.display='none'; }
+  }
+
+  /* ─── Form validation ────────────────────────────────────── */
+  function setField(id, ok, errId) {
+    const f = $(id);
+    f.classList.toggle('error', !ok);
+    f.classList.toggle('valid',  ok);
+    if (errId) $('err-' + errId).style.display = ok ? 'none' : 'block';
+  }
+
+  function validateForm() {
+    let ok = true;
+
+    const name = $('guest-name').value.trim();
+    const nameOk = name.length >= 3;
+    setField('f-name', nameOk, 'name'); if (!nameOk) ok = false;
+
+    const email = $('guest-email').value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setField('f-email', emailOk, 'email'); if (!emailOk) ok = false;
+
+    const phone = $('guest-phone').value.trim();
+    const phoneOk = phone.replace(/\D/g,'').length >= 7;
+    setField('f-phone', phoneOk, 'phone'); if (!phoneOk) ok = false;
+
+    const country = $('guest-country').value;
+    setField('f-country', !!country, 'country'); if (!country) ok = false;
+
+    if (activeTab === 'card') {
+      const cardNum = $('card-number').value.replace(/\s/g,'');
+      const cardOk  = cardNum.length >= 15 && cardNum.length <= 16;
+      setField('f-cardnum', cardOk, 'cardnum'); if (!cardOk) ok = false;
+
+      const holder = $('card-holder').value.trim();
+      setField('f-cardholder', holder.length >= 3, 'cardholder'); if (holder.length < 3) ok = false;
+
+      const expiry = $('card-expiry').value;
+      let expiryOk = false;
+      if (/^\d{2}\/\d{2}$/.test(expiry)) {
+        const [mm, yy] = expiry.split('/').map(Number);
+        const now = new Date();
+        const expDate = new Date(2000 + yy, mm - 1);
+        expiryOk = mm >= 1 && mm <= 12 && expDate >= new Date(now.getFullYear(), now.getMonth());
+      }
+      setField('f-expiry', expiryOk, 'expiry'); if (!expiryOk) ok = false;
+
+      const cvv = $('card-cvv').value;
+      const cvvOk = cvv.length >= 3 && cvv.length <= 4;
+      setField('f-cvv', cvvOk, 'cvv'); if (!cvvOk) ok = false;
+    }
+
+    if (activeTab === 'yappy') {
+      const yp = $('yappy-phone').value.replace(/\D/g,'');
+      const ypOk = yp.length >= 8;
+      setField('f-yappy', ypOk, 'yappy'); if (!ypOk) ok = false;
+    }
+
+    return ok;
+  }
+
+  /* ─── Process payment ────────────────────────────────────── */
+  function processPayment() {
+    if (!validateForm()) {
+      $('pay-overlay').scrollTop = 100;
+      return;
+    }
+
+    const btn = $('btn-pay');
+    btn.disabled = true;
+
+    // Show loading
+    $('pay-form-state').style.display = 'none';
+    $('pay-loading-state').className = 'spinner-wrap show';
+    $('pay-overlay').scrollTop = 0;
+
+    setTimeout(() => {
+      // Show success
+      $('pay-loading-state').className = 'spinner-wrap';
+
+      // Populate success screen
+      const ref = '#' + genRef();
+      $('success-ref').textContent    = ref;
+      $('success-email').textContent  = $('guest-email').value.trim();
+      $('s-room').textContent         = S.name;
+      $('s-checkin').textContent      = fmtDate(ci.value);
+      $('s-checkout').textContent     = fmtDate(co.value);
+      $('s-total').textContent        = fmtUSD(S.total);
+
+      $('pay-success-state').className = 'pay-success show';
+      $('pay-overlay').scrollTop = 0;
+
+      btn.disabled = false;
+    }, 1600);
+  }
+
+  function downloadPDF() {
+    window.print();
+  }
+
+  /* ─── Dashboard init ─────────────────────────────────────── */
+  function initDashMonth() {
+    const s = new Date().toLocaleDateString('es-PA', { month:'long', year:'numeric' });
+    $('dash-month').textContent = s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  /* ─── Count-up animation ─────────────────────────────────── */
+  function countUp(el, target, pre, suf, ms) {
+    const t0 = performance.now();
+    (function step(now) {
+      const p = Math.min((now - t0) / ms, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + Math.round(target * e).toLocaleString('en-US') + suf;
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  function animateBars() {
+    setTimeout(() => {
+      $('bar-before').style.width = '100%';
+      $('bar-after').style.width  = '100%';
+    }, 250);
+  }
+
+  let dashDone = false;
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !dashDone) {
+      dashDone = true;
+      const reservas = Math.max(1, Math.round(perdidaMes / (precioProm * 0.17)));
+      countUp($('m-recov'),  perdidaMes, '$', '',  1400);
+      countUp($('m-books'),  reservas,    '',  '',  1200);
+      countUp($('m-conv'),   34,          '',  '%', 1300);
+      countUp($('m-saved'),  perdidaMes, '$', '',  1400);
+      animateBars();
+    }
+  }, { threshold: 0.2 }).observe($('dashboard'));
+
+  /* ─── Availability Calendar ─────────────────────────────── */
+  const calToday = new Date();
+  const BOOKED = new Set();
+  for (let i = 5; i <= 8; i++) {
+    const d = new Date(calToday); d.setDate(calToday.getDate() + i);
+    BOOKED.add(d.toISOString().split('T')[0]);
+  }
+  for (let i = 15; i <= 17; i++) {
+    const d = new Date(calToday); d.setDate(calToday.getDate() + i);
+    BOOKED.add(d.toISOString().split('T')[0]);
+  }
+
+  let calYear  = calToday.getFullYear();
+  let calMonth = calToday.getMonth();
+  let calStep  = 1; // 0=picking checkin, 1=picking checkout
+  let calCi    = null, calCo = null;
+
+  const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const todayISO = calToday.toISOString().split('T')[0];
+
+  function renderCal() {
+    const body = document.getElementById('cal-body');
+    if (!body) return;
+    document.getElementById('cal-month-label').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+    body.innerHTML = '';
+
+    const firstDay = new Date(calYear, calMonth, 1);
+    const startDow = (firstDay.getDay() + 6) % 7;
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+    for (let i = 0; i < startDow; i++) {
+      const e = document.createElement('div');
+      e.className = 'cal-cell cal-empty';
+      body.appendChild(e);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const ds = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      const cell = document.createElement('div');
+      cell.textContent = d;
+      cell.dataset.date = ds;
+
+      const isPast   = ds < todayISO;
+      const isToday  = ds === todayISO;
+      const isBooked = BOOKED.has(ds);
+      const isCi     = calCi === ds;
+      const isCo     = calCo === ds;
+      const inRange  = calCi && calCo && ds > calCi && ds < calCo;
+
+      let cls = 'cal-cell';
+      if (isPast)   cls += ' cal-past';
+      else if (isBooked) cls += ' cal-booked';
+      else if (isCi) { cls += ' cal-selected cal-range-start cal-checkin-label'; cell.dataset.label = 'entrada'; }
+      else if (isCo) { cls += ' cal-selected cal-range-end cal-checkout-label'; cell.dataset.label = 'salida'; }
+      else if (inRange) cls += ' cal-in-range';
+      else if (isToday) cls += ' cal-today';
+
+      cell.className = cls;
+      if (!isPast && !isBooked) cell.addEventListener('click', () => calClick(ds));
+      body.appendChild(cell);
+    }
+  }
+
+  function calClick(ds) {
+    if (calStep === 0 || !calCi || ds <= calCi) {
+      calCi = ds; calCo = null; calStep = 1;
+      ci.value = ds;
+      const nx = new Date(ds+'T12:00:00'); nx.setDate(nx.getDate()+1);
+      co.value = ''; co.min = nx.toISOString().split('T')[0];
+      document.getElementById('date-error').style.display = 'none';
+    } else {
+      calCo = ds; calStep = 0;
+      co.value = ds;
+      validateDates();
+    }
+    renderCal();
+  }
+
+  function calNav(dir) {
+    calMonth += dir;
+    if (calMonth < 0)  { calMonth = 11; calYear--; }
+    if (calMonth > 11) { calMonth = 0;  calYear++; }
+    renderCal();
+  }
+
+  /* ─── Init ───────────────────────────────────────────────── */
+  populateDynamic();
+  initDates();
+  updateSummary();
+  initDashMonth();
+  calCi = ci.value || null;
+  calCo = co.value || null;
+  renderCal();
+
+  // Keep calendar in sync with native inputs
+  const _origCiListener = ci.onchange;
+  ci.addEventListener('change', () => { calCi = ci.value||null; if(!calCi) calCo=null; renderCal(); });
+  co.addEventListener('change', () => { calCo = co.value||null; renderCal(); });
+</script>
+
+<!-- ── Recepción.ia Widget ─────────────────────────────────── -->
+<style>
+  /* All styles use .ria-* prefix — no conflicts with existing CSS */
+  #ria-widget {
+    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 0;
+  }
+
+  /* ── Floating button ── */
+  .ria-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--primary); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(15,110,86,0.45);
+    transition: transform .2s, box-shadow .2s;
+    position: relative; flex-shrink: 0;
+  }
+  .ria-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(15,110,86,0.55); }
+  .ria-btn:active { transform: scale(.94); }
+  .ria-btn-icon-close { display: none; }
+  .ria-widget-open .ria-btn-icon-open  { display: none; }
+  .ria-widget-open .ria-btn-icon-close { display: block; }
+
+  /* ── Badge ── */
+  .ria-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #ef4444; color: #fff;
+    font-size: 11px; font-weight: 800;
+    display: none; align-items: center; justify-content: center;
+    border: 2px solid #fff;
+    animation: ria-badge-pulse 2s ease-in-out infinite;
+  }
+  .ria-badge.show { display: flex; }
+  @keyframes ria-badge-pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
+    50%      { box-shadow: 0 0 0 7px rgba(239,68,68,0); }
+  }
+
+  /* ── Proactive tooltip ── */
+  .ria-tooltip {
+    position: absolute; bottom: 68px; right: 0;
+    background: #fff; color: var(--text-primary);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 9px 14px; font-size: 13px; font-weight: 500;
+    white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.1);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .3s, transform .3s; pointer-events: none;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  .ria-tooltip::after {
+    content: ''; position: absolute; bottom: -6px; right: 20px;
+    width: 10px; height: 10px; background: #fff;
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+  .ria-tooltip.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .ria-widget-open .ria-tooltip { opacity: 0 !important; pointer-events: none !important; }
+
+  /* ── Chat panel ── */
+  .ria-panel {
+    position: absolute; bottom: 68px; right: 0;
+    width: 360px; height: 480px;
+    background: #FAFAF8; border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    display: none; flex-direction: column; overflow: hidden;
+    border: 1px solid var(--border);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  .ria-panel.open {
+    display: flex;
+    animation: ria-slide-in .22s ease;
+  }
+  @keyframes ria-slide-in {
+    from { opacity: 0; transform: translateY(14px) scale(.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);   }
+  }
+
+  /* ── Header ── */
+  .ria-header {
+    background: var(--primary); color: #fff;
+    padding: 13px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .ria-header-left { display: flex; align-items: center; gap: 10px; }
+  .ria-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    border: 2px solid rgba(255,255,255,.35);
+    overflow: hidden; flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .ria-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .ria-hname { font-size: 14px; font-weight: 700; line-height: 1.2; display: flex; align-items: center; gap: 6px; }
+  .ria-ai-badge {
+    font-size: 9px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase;
+    background: rgba(255,255,255,0.22); color: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.3); padding: 2px 7px; border-radius: 20px;
+  }
+  .ria-hstatus { display: flex; align-items: center; gap: 5px; font-size: 11px; opacity: .8; margin-top: 2px; }
+  .ria-pulse-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0;
+    animation: ria-dot-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes ria-dot-pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+  .ria-close-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,.18); border: none; color: #fff;
+    font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s; flex-shrink: 0;
+  }
+  .ria-close-btn:hover { background: rgba(255,255,255,.32); }
+
+  /* ── Messages ── */
+  .ria-messages {
+    flex: 1; overflow-y: auto; padding: 14px 14px 8px;
+    display: flex; flex-direction: column; gap: 10px;
+    scroll-behavior: smooth;
+  }
+  .ria-messages::-webkit-scrollbar { width: 4px; }
+  .ria-messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+  /* Agent bubble */
+  .ria-row-agent { display: flex; gap: 8px; align-items: flex-start; }
+  .ria-msg-av {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--primary-light, #E1F5EE);
+    overflow: hidden; flex-shrink: 0; margin-top: 2px;
+    border: 1.5px solid rgba(10,92,66,0.15);
+  }
+  .ria-msg-av img { width: 100%; height: 100%; object-fit: cover; }
+  .ria-bwrap { display: flex; flex-direction: column; gap: 3px; max-width: calc(100% - 40px); }
+  .ria-bubble-a {
+    background: #fff; border: 0.5px solid var(--border);
+    border-radius: 4px 16px 16px 16px;
+    padding: 9px 13px; font-size: 13.5px; line-height: 1.55;
+    color: var(--text-primary); word-break: break-word; white-space: pre-wrap;
+  }
+  .ria-ts { font-size: 10px; color: var(--text-muted); padding-left: 2px; }
+
+  /* User bubble */
+  .ria-row-user { display: flex; justify-content: flex-end; }
+  .ria-uwrap { display: flex; flex-direction: column; align-items: flex-end; max-width: 85%; }
+  .ria-bubble-u {
+    background: var(--primary); color: #fff;
+    border-radius: 16px 4px 16px 16px;
+    padding: 9px 13px; font-size: 13.5px; line-height: 1.55;
+    word-break: break-word;
+  }
+  .ria-uts { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+  /* Chips */
+  .ria-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .ria-chip {
+    border: 1.5px solid var(--primary); color: var(--primary);
+    background: #fff; border-radius: 20px;
+    padding: 5px 11px; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: background .15s, color .15s;
+    white-space: nowrap; font-family: 'Inter', -apple-system, sans-serif;
+  }
+  .ria-chip:hover { background: var(--primary); color: #fff; }
+
+  /* Typing indicator */
+  .ria-row-typing { display: flex; gap: 8px; align-items: flex-start; }
+  .ria-typing-bub {
+    background: #fff; border: 0.5px solid var(--border);
+    border-radius: 4px 16px 16px 16px;
+    padding: 11px 15px; display: flex; gap: 5px; align-items: center;
+  }
+  .ria-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #ccc; animation: ria-bounce .9s infinite;
+  }
+  .ria-dot:nth-child(2) { animation-delay: .15s; }
+  .ria-dot:nth-child(3) { animation-delay: .3s; }
+  @keyframes ria-bounce {
+    0%,80%,100% { transform: translateY(0);   background: #ccc; }
+    40%          { transform: translateY(-5px); background: #888; }
+  }
+
+  /* Input area */
+  .ria-input-area {
+    padding: 10px 12px; border-top: 1px solid var(--border);
+    display: flex; gap: 8px; align-items: center;
+    background: #fff; flex-shrink: 0;
+  }
+  .ria-input {
+    flex: 1; padding: 9px 13px; font-size: 14px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    border: 1.5px solid var(--border); border-radius: 20px;
+    outline: none; background: #FAFAF8; color: var(--text-primary);
+    transition: border-color .2s;
+  }
+  .ria-input:focus { border-color: var(--primary); }
+  .ria-input:disabled { background: #f3f4f6; cursor: not-allowed; }
+  .ria-send-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--primary); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background .15s, transform .1s;
+  }
+  .ria-send-btn:hover { background: var(--primary-dark); }
+  .ria-send-btn:active { transform: scale(.9); }
+  .ria-send-btn:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+  .ria-send-spinner { display: none; animation: ria-spin .7s linear infinite; }
+  .ria-busy .ria-send-arrow   { display: none; }
+  .ria-busy .ria-send-spinner { display: block; }
+  @keyframes ria-spin { to { transform: rotate(360deg); } }
+
+  /* Mobile */
+  @media (max-width: 500px) {
+    #ria-widget { bottom: 16px; right: 16px; }
+    .ria-panel {
+      position: fixed; bottom: 0; right: 0;
+      width: 100vw; height: 70vh;
+      border-radius: 20px 20px 0 0;
+    }
+    .ria-tooltip { right: 0; }
+  }
+</style>
+
+<div id="ria-widget">
+  <div class="ria-tooltip" id="ria-tooltip">¿Tienes preguntas sobre Bocas? 👋</div>
+
+  <div class="ria-panel" id="ria-panel" role="dialog" aria-label="Recepción.ia chat">
+    <div class="ria-header">
+      <div class="ria-header-left">
+        <div class="ria-avatar">R.ia</div>
+        <div>
+          <div class="ria-hname">Recepción.ia</div>
+          <div class="ria-hstatus">
+            <span class="ria-pulse-dot"></span>
+            Concierge virtual · Responde en seg.
+          </div>
+        </div>
+      </div>
+      <button class="ria-close-btn" onclick="riaToggle()" aria-label="Cerrar chat">✕</button>
+    </div>
+
+    <div class="ria-messages" id="ria-messages" role="log" aria-live="polite"></div>
+
+    <div class="ria-input-area">
+      <input
+        type="text" id="ria-input" class="ria-input"
+        placeholder="Escribe tu pregunta..."
+        autocomplete="off" maxlength="500"
+      />
+      <button class="ria-send-btn" id="ria-send-btn" aria-label="Enviar mensaje">
+        <svg class="ria-send-arrow" width="15" height="15" viewBox="0 0 24 24" fill="white">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+        <svg class="ria-send-spinner" width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2.5" stroke-dasharray="28 56" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <button class="ria-btn" id="ria-btn" onclick="riaToggle()" aria-label="Abrir asistente virtual">
+    <!-- Spark icon (closed state) -->
+    <svg class="ria-btn-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2l1.8 5.5H19l-4.6 3.4 1.8 5.5L12 13l-4.2 3.4 1.8-5.5L5 7.5h5.2z" fill="white"/>
+      <circle cx="19.5" cy="4.5" r="2" fill="white" opacity=".55"/>
+      <circle cx="5.5" cy="18.5" r="1.4" fill="white" opacity=".4"/>
+    </svg>
+    <!-- X icon (open state) -->
+    <svg class="ria-btn-icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="ria-badge" id="ria-badge">1</span>
+  </button>
+</div>
+
+<script>
+  /* ─────────────────────────────────────────────────────────────
+     Recepción.ia Widget — Groq (GRATIS, sin tarjeta)
+     ── Reemplaza 'YOUR_GROQ_API_KEY' con tu key ────────────────
+     ── Consíguela GRATIS en: console.groq.com → API Keys ───────
+  ───────────────────────────────────────────────────────────── */
+  const RIA_API_KEY = 'YOUR_GROQ_API_KEY';
+
+  let riaIsOpen    = false;
+  let riaWelcomed  = false;
+  let riaBusy      = false;
+  let riaHistory   = [];
+  let riaTypingEl  = null;
+
+  const riaPanel   = document.getElementById('ria-panel');
+  const riaBtn     = document.getElementById('ria-btn');
+  const riaWidgetEl= document.getElementById('ria-widget');
+  const riaMsgs    = document.getElementById('ria-messages');
+  const riaInp     = document.getElementById('ria-input');
+  const riaSndBtn  = document.getElementById('ria-send-btn');
+  const riaBadgeEl = document.getElementById('ria-badge');
+  const riaTooltipEl = document.getElementById('ria-tooltip');
+
+  /* ── UX timers ─────────────────────────────────────────────── */
+  setTimeout(() => riaBadgeEl.classList.add('show'), 4000);
+  setTimeout(() => { if (!riaIsOpen) riaTooltipEl.classList.add('show'); }, 30000);
+
+  /* ── Toggle ────────────────────────────────────────────────── */
+  function riaToggle() {
+    riaIsOpen = !riaIsOpen;
+    riaPanel.classList.toggle('open', riaIsOpen);
+    riaWidgetEl.classList.toggle('ria-widget-open', riaIsOpen);
+    riaBadgeEl.classList.remove('show');
+    riaTooltipEl.classList.remove('show');
+    if (riaIsOpen) {
+      if (!riaWelcomed) { riaWelcomed = true; riaWelcome(); }
+      setTimeout(() => riaInp.focus(), 230);
+    }
+  }
+
+  /* ── Welcome ───────────────────────────────────────────────── */
+  function riaWelcome() {
+    const hn = (typeof hotelNombre !== 'undefined' && hotelNombre) ? hotelNombre : 'nuestro hotel';
+    const txt = 'Hola 👋 Soy Recepción.ia, el concierge virtual de ' + hn + '.\n\nPuedo ayudarte con:\n• Información sobre el hotel\n• Cómo llegar a Bocas del Toro\n• Playas e islas que visitar\n• Tours y actividades\n• Clima y mejor época\n\n¿En qué te puedo ayudar?';
+    riaRender(txt, 'agent', ['¿Cómo llego a Bocas?','¿Qué playas visitar?','¿Qué tours hay?','Info del hotel']);
+  }
+
+  /* ── Render message ────────────────────────────────────────── */
+  function riaRender(text, role, chips) {
+    const ts = new Date().toLocaleTimeString('es-PA', { hour:'2-digit', minute:'2-digit' });
+
+    if (role === 'agent') {
+      const row  = document.createElement('div'); row.className = 'ria-row-agent';
+      const av   = document.createElement('div'); av.className  = 'ria-msg-av'; av.textContent = 'R';
+      const wrap = document.createElement('div'); wrap.className= 'ria-bwrap';
+      const bub  = document.createElement('div'); bub.className = 'ria-bubble-a'; bub.textContent = text;
+      const tsel = document.createElement('div'); tsel.className= 'ria-ts'; tsel.textContent = ts;
+      wrap.appendChild(bub);
+      wrap.appendChild(tsel);
+      if (chips && chips.length) {
+        const cw = document.createElement('div'); cw.className = 'ria-chips';
+        chips.forEach(label => {
+          const c = document.createElement('button'); c.className = 'ria-chip'; c.textContent = label;
+          c.onclick = () => { cw.remove(); riaSend(label); };
+          cw.appendChild(c);
+        });
+        wrap.appendChild(cw);
+      }
+      row.appendChild(av); row.appendChild(wrap);
+      riaMsgs.appendChild(row);
+
+    } else {
+      const row  = document.createElement('div'); row.className = 'ria-row-user';
+      const wrap = document.createElement('div'); wrap.className= 'ria-uwrap';
+      const bub  = document.createElement('div'); bub.className = 'ria-bubble-u'; bub.textContent = text;
+      const tsel = document.createElement('div'); tsel.className= 'ria-uts'; tsel.textContent = ts;
+      wrap.appendChild(bub); wrap.appendChild(tsel);
+      row.appendChild(wrap);
+      riaMsgs.appendChild(row);
+    }
+
+    riaMsgs.lastElementChild.scrollIntoView({ behavior:'smooth', block:'end' });
+  }
+
+  /* ── Typing indicator ──────────────────────────────────────── */
+  function riaShowTyping() {
+    const row = document.createElement('div'); row.className = 'ria-row-typing';
+    const av  = document.createElement('div'); av.className  = 'ria-msg-av'; av.textContent = 'R';
+    const bub = document.createElement('div'); bub.className = 'ria-typing-bub';
+    for (let i = 0; i < 3; i++) { const d = document.createElement('span'); d.className='ria-dot'; bub.appendChild(d); }
+    row.appendChild(av); row.appendChild(bub);
+    riaMsgs.appendChild(row);
+    riaTypingEl = row;
+    row.scrollIntoView({ behavior:'smooth', block:'end' });
+  }
+  function riaHideTyping() {
+    if (riaTypingEl) { riaTypingEl.remove(); riaTypingEl = null; }
+  }
+
+  /* ── Send message ──────────────────────────────────────────── */
+  async function riaSend(text) {
+    if (!text || !text.trim() || riaBusy) return;
+    riaBusy = true;
+    riaInp.value = '';
+    riaInp.disabled = true;
+    riaSndBtn.disabled = true;
+    riaSndBtn.classList.add('ria-busy');
+
+    riaRender(text, 'user');
+    await riaCallAPI(text);
+
+    riaInp.disabled  = false;
+    riaSndBtn.disabled = false;
+    riaSndBtn.classList.remove('ria-busy');
+    riaBusy = false;
+    riaInp.focus();
+  }
+
+  function riaSendFromInput() { riaSend(riaInp.value.trim()); }
+
+  riaInp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); riaSendFromInput(); }
+  });
+  riaSndBtn.addEventListener('click', riaSendFromInput);
+
+  /* ── API call (Groq — gratis, OpenAI-compatible) ──────────── */
+  async function riaCallAPI(text) {
+    riaHistory.push({ role: 'user', content: text });
+    riaShowTyping();
+    await new Promise(r => setTimeout(r, 600));
+
+    try {
+      const messages = [
+        { role: 'system', content: riaBuildPrompt() },
+        ...riaHistory
+      ];
+
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + RIA_API_KEY
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 400,
+          temperature: 0.7,
+          messages: messages
+        })
+      });
+
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error('HTTP ' + res.status + ' — ' + (errBody.error?.message || JSON.stringify(errBody)));
+      }
+
+      const data  = await res.json();
+      const reply = data.choices[0].message.content;
+
+      riaHistory.push({ role: 'assistant', content: reply });
+      if (riaHistory.length > 10) riaHistory = riaHistory.slice(-10);
+      riaHideTyping();
+      riaRender(reply, 'agent');
+
+    } catch (err) {
+      console.error('[Recepción.ia error]', err);
+      riaHideTyping();
+      const esCORS = err instanceof TypeError;
+      if (esCORS) {
+        riaRender('🔒 Error CORS: usa el Chrome especial con seguridad desactivada (el que abriste antes).', 'agent');
+      } else {
+        riaRender('⚠️ Error: ' + err.message, 'agent');
+      }
+    }
+  }
+
+  /* ── System prompt ─────────────────────────────────────────── */
+  function riaBuildPrompt() {
+    const hn = (typeof hotelNombre !== 'undefined' && hotelNombre) ? hotelNombre : 'nuestro hotel';
+    return `Eres Recepción.ia, el concierge virtual de ${hn}, un hotel boutique en Bocas del Toro, Panamá.
+
+PERSONALIDAD:
+- Cálido, servicial y local. Hablas como alguien que conoce Bocas de verdad.
+- Bilingüe: si el usuario escribe en inglés, respondes en inglés. Si escribe en español, en español.
+- Respuestas cortas y directas. Máximo 3-4 líneas por respuesta. Sin listas largas.
+- Nunca mencionas precios de tours ni precios de terceros (solo el precio del hotel cuando pregunten).
+- Si no sabes algo específico del hotel, dices: "Para eso te conecto con nuestro equipo directamente."
+- Terminas respuestas importantes con una pregunta para continuar la conversación.
+
+CÓMO LLEGAR DESDE CIUDAD DE PANAMÁ:
+- Vuelo directo: Air Panama opera vuelos diarios desde Albrook. Duración: 45-55 min. Aeropuerto: Bocas Town, Isla Colón.
+- Por tierra + lancha: bus por la Panamericana hasta Chiriquí (~6h), shuttle a Puerto Almirante (~1.5h), lancha a Bocas Town (~35 min).
+- Shuttle turístico: servicio puerta a puerta desde Ciudad de Panamá o Boquete.
+
+DESDE COSTA RICA:
+- Cruce por Sixaola-Guabito, taxi o shuttle a Almirante, lancha a Bocas Town.
+- Shuttle directo desde San José (Caribe Shuttle, Tica Bus).
+
+DESDE EL AEROPUERTO AL HOTEL:
+- El aeropuerto está en Isla Colón, a 2 min del centro en taxi. Hoteles en otras islas coordinan lancha propia.
+
+ISLAS DEL ARCHIPIÉLAGO:
+- Isla Colón: la más grande. Bocas Town: restaurantes, tiendas, vida nocturna. Playas: Bluff (9km, surf), Boca del Drago (aguas tranquilas), Starfish Beach (estrellas de mar).
+- Isla Bastimentos: Red Frog Beach (ranitas rojas endémicas), Wizard Beach (surf avanzado). Parque Nacional Marino.
+- Isla Carenero: 2 min de Bocas Town. Surf, restaurantes sobre el agua.
+- Isla San Cristóbal: Dolphin Bay (delfines nariz de botella), kayak, comunidad Ngöbe-Buglé.
+- Cayos Zapatillas: playas paradisíacas vírgenes, agua turquesa. Destino final de los tours de día completo. Entrada al Parque Nacional.
+- Isla Solarte: Hospital Point (buceo, coral), tranquilidad.
+
+PLAYAS IMPRESCINDIBLES:
+1. Red Frog Beach (Bastimentos): postal de Bocas. Ranitas rojas endémicas.
+2. Bluff Beach (Isla Colón): 9km virgen, surf, casi sin gente.
+3. Starfish Beach: agua turquesa calmada, estrellas de mar (NO tocarlas, protegidas).
+4. Boca del Drago: snorkeling, buceo, arrecifes.
+5. Wizard Beach: virgen, solo surfistas avanzados.
+6. Zapatillas: las más paradisíacas del archipiélago, parecen las Maldivas.
+
+TOURS Y ACTIVIDADES:
+- Tour de archipiélago (día completo): Starfish Beach + Dolphin Bay + Red Frog Beach + Zapatillas. El más popular.
+- Snorkeling: arrecifes en Bocas Town y Hospital Point en Solarte.
+- Buceo: Panama Dive Center, Bocas Dive Center. Mejores sitios: Tiger Rock, Hospital Point, Polo Beach. Cursos PADI disponibles.
+- Kayak y paddleboard por los manglares.
+- Night snorkeling con bioluminiscencia (temporada específica).
+- Surf: escuelas para principiantes en Isla Colón. Avanzados: Silverbacks (Carenero), Dumps (Bastimentos), Bluff Beach.
+- Avistamiento de tortugas marinas (marzo-octubre, playas de Bastimentos, experiencia nocturna).
+- Bat Cave: cuevas de murciélagos en bote.
+- ATV tours por la selva de Isla Colón.
+- Horseback riding en San Cristóbal.
+- Visitas a comunidades Ngöbe-Buglé: artesanías, cultura, cacao.
+
+CLIMA:
+- Tropical caribeño. Temperatura del agua: 27-30°C todo el año, sin traje de neopreno.
+- Más soleado: enero-marzo y septiembre-octubre.
+- Lluvia: abril-agosto y noviembre-diciembre (generalmente en las tardes, no todo el día).
+- Mar agitado con viento del norte (diciembre-febrero), puede afectar tours en lancha.
+- Tip local: si llueve en la mañana, suele aclarar al mediodía.
+
+VIDA PRÁCTICA:
+- Moneda: dólar americano. ATMs en Bocas Town (comisión ~$5 por retiro).
+- Tarjeta: acepta la mayoría de hoteles y restaurantes. Tours en lancha suelen cobrar en efectivo.
+- Internet: funcional pero no de alta velocidad. Cobertura Claro y Movistar en islas principales.
+- Transporte: water taxi entre islas ($1-3), bicicleta en Isla Colón, a pie en Bocas Town.
+- Seguridad: Bocas es muy seguro para turismo. Solo precaución con pertenencias en la playa.
+- Agua: beber agua embotellada o del hotel.
+- Idioma: español oficial. Inglés básico en la mayoría de locales. Creole "Guari-Guari" en Old Bank.
+
+INFO DEL HOTEL (genérica para la demo):
+- Check-in: 3:00 PM / Check-out: 12:00 PM
+- Early/late check-out: sujeto a disponibilidad
+- Desayuno: incluido lunes-sábado, 7:00-10:00 AM
+- Wi-Fi: en todo el hotel
+- Transporte desde aeropuerto: el hotel coordina — avisar hora de llegada
+- Mascotas: no se permiten
+- Piscina: disponible todo el día
+- Tours: el hotel ayuda a coordinar los principales tours del archipiélago
+
+CUANDO PREGUNTEN POR DISPONIBILIDAD O RESERVAS:
+Responde: "Para verificar disponibilidad en tiempo real, usa el widget de reservas en la página o escríbenos por WhatsApp y te confirmamos en minutos."
+
+CUANDO NO SEPAS ALGO ESPECÍFICO:
+Responde: "Esa pregunta la responde mejor nuestro equipo directamente. ¿Te conecto por WhatsApp?"
+
+Recuerda: respuestas cortas, cálidas, útiles. Máximo 3-4 líneas. Siempre termina con una pregunta de seguimiento.`;
+  }
+</script>
+</body>
+</html>

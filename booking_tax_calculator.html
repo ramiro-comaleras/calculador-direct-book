@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Booking Tax Calculator — SaaS Factory Bocas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #D72638;
+      --red-bg: #FFF0F1;
+      --green:  #1A8A5A;
+      --green-bg: #F0FAF5;
+      --dark:   #111827;
+      --mid:    #4B5563;
+      --light:  #F9FAFB;
+      --border: #E5E7EB;
+      --white:  #FFFFFF;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: var(--dark);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-mark span { color: #fff; font-size: 16px; font-weight: 800; }
+
+    .logo-text { font-size: 15px; font-weight: 700; color: var(--dark); }
+    .logo-sub  { font-size: 12px; color: var(--mid); }
+
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px;
+      align-items: start;
+    }
+
+    /* ── Left panel ─────────────────────────────────────── */
+    .panel-inputs {
+      background: var(--white);
+      border-radius: 16px 0 0 16px;
+      border: 1px solid var(--border);
+      border-right: none;
+      padding: 28px 24px;
+    }
+
+    .panel-inputs h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mid);
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .field input[type="text"],
+    .field input[type="number"] {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--dark);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .field input[type="text"]:focus,
+    .field input[type="number"]:focus {
+      border-color: var(--dark);
+    }
+
+    /* Slider row */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slider-row input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border);
+      outline: none;
+      cursor: pointer;
+    }
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--dark);
+      cursor: pointer;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 2px var(--dark);
+    }
+    .slider-val {
+      min-width: 46px;
+      text-align: right;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .fixed-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--mid);
+      width: 100%;
+    }
+    .fixed-badge .lock { font-size: 13px; }
+
+    /* ── Right panel ────────────────────────────────────── */
+    .panel-result {
+      background: var(--white);
+      border-radius: 0 16px 16px 0;
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .hotel-name-display {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+    #display-hotel-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 20px;
+      min-height: 28px;
+    }
+
+    .loss-card {
+      background: var(--red-bg);
+      border: 1.5px solid var(--red);
+      border-radius: 14px;
+      padding: 20px 18px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .loss-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 6px;
+    }
+    .loss-amount {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--red);
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .loss-month-label {
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 600;
+      margin-top: 4px;
+      opacity: .85;
+    }
+
+    .annual-card {
+      background: #fff5f5;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .annual-card .al {
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 600;
+    }
+    .annual-card .av {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--red);
+    }
+
+    .breakdown {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--mid);
+      padding: 3px 0;
+    }
+    .breakdown-row span:last-child { font-weight: 600; color: var(--dark); }
+
+    .contrast-line {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-bg);
+      border-radius: 8px;
+      padding: 11px 14px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .closing-line {
+      font-size: 13px;
+      color: var(--mid);
+      text-align: center;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    .cta-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 12px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      letter-spacing: .2px;
+    }
+    .cta-btn:hover  { background: #157a4f; }
+    .cta-btn:active { transform: scale(.98); }
+    .cta-btn .wa-icon { font-size: 18px; margin-right: 6px; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #9CA3AF;
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .main {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 12px;
+      }
+      .panel-inputs {
+        border-radius: 16px;
+        border-right: 1px solid var(--border);
+      }
+      .panel-result {
+        border-radius: 16px;
+      }
+      .loss-amount { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <div class="logo-mark"><span>B</span></div>
+    <div>
+      <div class="logo-text">Booking Tax Calculator</div>
+      <div class="logo-sub">SaaS Factory Bocas · Direct-Book Bocas</div>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- LEFT: Inputs -->
+    <div class="panel-inputs">
+      <h2>Datos del Hotel</h2>
+
+      <div class="field">
+        <label>Nombre del Hotel</label>
+        <input type="text" id="hotel-name" placeholder="Ej: Hotel Playa Blanca" />
+      </div>
+
+      <div class="field">
+        <label>Habitaciones</label>
+        <input type="number" id="rooms" value="10" min="1" max="200" />
+      </div>
+
+      <div class="field">
+        <label>Precio Promedio por Noche (USD)</label>
+        <input type="number" id="price" value="150" min="1" max="10000" />
+      </div>
+
+      <div class="field">
+        <label>Ocupacion Mensual — <span id="occ-label">70%</span></label>
+        <div class="slider-row">
+          <input type="range" id="occupancy" min="0" max="100" value="70" />
+          <span class="slider-val" id="occ-display">70%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Reservas por OTA (Booking / Airbnb) — <span id="ota-label">80%</span></label>
+        <div class="slider-row">
+          <input type="range" id="ota-pct" min="0" max="100" value="80" />
+          <span class="slider-val" id="ota-display">80%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Comision OTA (fija)</label>
+        <div class="fixed-badge">
+          <span class="lock">🔒</span> 17% — comision promedio Booking.com
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Result -->
+    <div class="panel-result">
+      <div class="hotel-name-display">Resultado para</div>
+      <div id="display-hotel-name">Tu Hotel</div>
+
+      <div class="loss-card">
+        <div class="loss-label">Dinero regalado a Booking este mes</div>
+        <div class="loss-amount" id="monthly-loss">$0</div>
+        <div class="loss-month-label">perdidos este mes en comisiones</div>
+      </div>
+
+      <div class="annual-card">
+        <div class="al">Al ano, evaporados:</div>
+        <div class="av" id="annual-loss">$0</div>
+      </div>
+
+      <div class="breakdown">
+        <div class="breakdown-row">
+          <span>Noches vendidas/mes</span>
+          <span id="bd-noches">0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Noches via OTA</span>
+          <span id="bd-ota-noches">0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Ingreso bruto via OTA</span>
+          <span id="bd-ingreso">$0</span>
+        </div>
+      </div>
+
+      <div class="contrast-line">
+        Con reservas directas, este dinero va directo a tu cuenta.
+      </div>
+
+      <div class="closing-line">
+        Este sistema se paga solo en el primer mes.
+      </div>
+
+      <a id="whatsapp-cta" class="cta-btn" href="#" target="_blank" rel="noopener">
+        <span class="wa-icon">💬</span> Quiero recuperar este dinero
+      </a>
+    </div>
+
+  </div>
+
+  <footer>Calculadora generada por SaaS Factory Bocas</footer>
+
+</div>
+
+<script>
+  // ── Helpers ──────────────────────────────────────────────
+  const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
+  const get = (id) => document.getElementById(id);
+
+  // ── Refs ─────────────────────────────────────────────────
+  const elHotelInput   = get('hotel-name');
+  const elRooms        = get('rooms');
+  const elPrice        = get('price');
+  const elOccSlider    = get('occupancy');
+  const elOtaSlider    = get('ota-pct');
+  const elOccDisplay   = get('occ-display');
+  const elOtaDisplay   = get('ota-display');
+  const elOccLabel     = get('occ-label');
+  const elOtaLabel     = get('ota-label');
+  const elHotelDisplay = get('display-hotel-name');
+  const elMonthly      = get('monthly-loss');
+  const elAnnual       = get('annual-loss');
+  const elBdNoches     = get('bd-noches');
+  const elBdOtaNoches  = get('bd-ota-noches');
+  const elBdIngreso    = get('bd-ingreso');
+  const elCta          = get('whatsapp-cta');
+
+  const WA_NUMBER = '50769XXXXXX'; // <-- Cambia este numero por el tuyo real
+
+  // ── Calculate ─────────────────────────────────────────────
+  function recalc() {
+    const rooms    = Math.max(0, parseFloat(elRooms.value) || 0);
+    const price    = Math.max(0, parseFloat(elPrice.value) || 0);
+    const occ      = parseFloat(elOccSlider.value);
+    const otaPct   = parseFloat(elOtaSlider.value);
+    const comision = 0.17;
+
+    const noches_vendidas  = rooms * 30 * (occ / 100);
+    const reservas_ota     = noches_vendidas * (otaPct / 100);
+    const ingreso_ota      = reservas_ota * price;
+    const comision_mes     = ingreso_ota * comision;
+    const comision_anio    = comision_mes * 12;
+
+    // Update slider labels
+    elOccDisplay.textContent = occ + '%';
+    elOtaDisplay.textContent = otaPct + '%';
+    elOccLabel.textContent   = occ + '%';
+    elOtaLabel.textContent   = otaPct + '%';
+
+    // Update hotel name display
+    const nombre = elHotelInput.value.trim();
+    elHotelDisplay.textContent = nombre || 'Tu Hotel';
+
+    // Update result numbers
+    elMonthly.textContent    = fmt(comision_mes);
+    elAnnual.textContent     = fmt(comision_anio);
+    elBdNoches.textContent   = Math.round(noches_vendidas);
+    elBdOtaNoches.textContent = Math.round(reservas_ota);
+    elBdIngreso.textContent  = fmt(ingreso_ota);
+
+    // Update WhatsApp CTA
+    const hotelLabel = nombre || 'mi hotel';
+    const msg = encodeURIComponent(
+      `Hola! Acabo de ver que ${hotelLabel} esta regalando ${fmt(comision_mes)} al mes en comisiones a Booking. Quiero saber como recuperar ese dinero con reservas directas.`
+    );
+    elCta.href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+  }
+
+  // ── Events ────────────────────────────────────────────────
+  elHotelInput.addEventListener('input', recalc);
+  elRooms.addEventListener('input', recalc);
+  elPrice.addEventListener('input', recalc);
+  elOccSlider.addEventListener('input', recalc);
+  elOtaSlider.addEventListener('input', recalc);
+
+  // ── Init ──────────────────────────────────────────────────
+  recalc();
+</script>
+
+</body>
+</html>
